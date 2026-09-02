@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hawa & Nuha | Menu Kuliner Favorit</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Playfair Display"', 'serif'],
+            body: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            ck: {
+              cream:   '#FDF6F0',
+              ivory:   '#FFF9F5',
+              white:   '#FFFFFF',
+              blush:   '#F9E4E8',
+              rose:    '#F4B8C1',
+              dusty:   '#E8A0AB',
+              deep:    '#D4849A',
+              wine:    '#B8667A',
+              mocha:   '#5C3D3D',
+              brown:   '#8B6B6B',
+              taupe:   '#A38888',
+              sand:    '#C4A8A0',
+              gold:    '#C9A96E',
+              goldlt:  '#E2D1A8',
+              border:  '#F4D4DA',
+              borderlt:'#FAECEE',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Plus Jakarta Sans',sans-serif; background:#FDF6F0; color:#5C3D3D; overflow-x:hidden; }
+
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)} }
+    @keyframes steam { 0%{opacity:0;transform:translateY(0) scaleX(1)} 50%{opacity:0.4} 100%{opacity:0;transform:translateY(-70px) scaleX(1.3)} }
+    @keyframes sway { 0%,100%{transform:rotate(-2deg)} 50%{transform:rotate(2deg)} }
+    @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+    @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+    @keyframes bounceIn { 0%{transform:scale(0.3);opacity:0} 50%{transform:scale(1.05)} 70%{transform:scale(0.95)} 100%{transform:scale(1);opacity:1} }
+    @keyframes heartbeat { 0%,100%{transform:scale(1)} 15%{transform:scale(1.15)} 30%{transform:scale(1)} 45%{transform:scale(1.1)} }
+    @keyframes drift { 0%{transform:translate(0,0) rotate(0deg)} 25%{transform:translate(10px,-10px) rotate(5deg)} 50%{transform:translate(-5px,-20px) rotate(-3deg)} 75%{transform:translate(-15px,-10px) rotate(2deg)} 100%{transform:translate(0,0) rotate(0deg)} }
+
+    .steam-particle {
+      position:absolute; width:6px; height:6px; background:rgba(212,132,154,0.25); border-radius:50%; filter:blur(3px);
+      animation:steam 2.5s ease-out infinite;
+    }
+    .float-anim { animation:float 6s ease-in-out infinite; }
+    .sway-anim { animation:sway 4s ease-in-out infinite; }
+    .heartbeat-anim { animation:heartbeat 2s ease-in-out infinite; }
+    .drift-anim { animation:drift 8s ease-in-out infinite; }
+
+    .reveal { opacity:0; transform:translateY(50px); transition:all 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.active { opacity:1; transform:translateY(0); }
+    .reveal-left { opacity:0; transform:translateX(-50px); transition:all 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-left.active { opacity:1; transform:translateX(0); }
+    .reveal-right { opacity:0; transform:translateX(50px); transition:all 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-right.active { opacity:1; transform:translateX(0); }
+
+    .menu-card { transition:all 0.4s cubic-bezier(0.16,1,0.3,1); }
+    .menu-card:hover { transform:translateY(-10px); box-shadow:0 20px 60px rgba(244,184,193,0.3); }
+    .menu-card:hover .menu-img { transform:scale(1.08); }
+    .menu-card:hover .menu-badge { animation:bounceIn 0.5s ease; }
+    .menu-img { transition:transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+
+    .btn-order {
+      background:linear-gradient(135deg,#F4B8C1,#E8A0AB);
+      transition:all 0.3s ease;
+      color:#5C3D3D;
+    }
+    .btn-order:hover { transform:scale(1.03); box-shadow:0 8px 30px rgba(244,184,193,0.5); background:linear-gradient(135deg,#E8A0AB,#D4849A); color:#fff; }
+
+    .btn-order-white {
+      background:#fff;
+      border:2px solid #F4D4DA;
+      color:#8B6B6B;
+      transition:all 0.3s ease;
+    }
+    .btn-order-white:hover { border-color:#F4B8C1; color:#D4849A; background:#FFF9F5; }
+
+    .wa-float {
+      position:fixed; bottom:24px; right:24px; z-index:999;
+      transition:transform 0.3s ease;
+      box-shadow:0 4px 20px rgba(37,211,102,0.3);
+    }
+    .wa-float:hover { transform:scale(1.12); }
+
+    .bg-lace {
+      background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23F4B8C1' fill-opacity='0.06'%3E%3Cpath d='M40 0c0 5.523-4.477 10-10 10S20 5.523 20 0h-2c0 6.627-5.373 12-12 12v2c6.627 0 12 5.373 12 12h2c0-5.523 4.477-10 10-10s10 4.477 10 10h2c0-6.627 5.373-12 12-12v-2c-6.627 0-12-5.373-12-12h-2zm0 40c0 5.523-4.477 10-10 10S20 45.523 20 40h-2c0 6.627-5.373 12-12 12v2c6.627 0 12 5.373 12 12h2c0-5.523 4.477-10 10-10s10 4.477 10 10h2c0-6.627 5.373-12 12-12v-2c-6.627 0-12-5.373-12-12h-2zm0 40c0 5.523-4.477 10-10 10S20 85.523 20 80h-2c0 6.627-5.373 12-12 12v2c6.627 0 12 5.373 12 12h2c0-5.523 4.477-10 10-10s10 4.477 10 10h2c0-6.627 5.373-12 12-12v-2c-6.627 0-12-5.373-12-12h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .marquee-track { animation:marquee 30s linear infinite; }
+    .marquee-track:hover { animation-play-state:paused; }
+
+    .price-tag {
+      background:linear-gradient(135deg,#C9A96E,#B8976A);
+      clip-path:polygon(10% 0%,100% 0%,100% 100%,10% 100%,0% 50%);
+      color:#fff;
+    }
+
+    .hero-gradient {
+      background:radial-gradient(ellipse at 30% 40%, rgba(244,184,193,0.2) 0%, transparent 60%),
+                 radial-gradient(ellipse at 70% 60%, rgba(232,160,171,0.12) 0%, transparent 50%);
+    }
+
+    .text-gradient-coquette {
+      background:linear-gradient(135deg,#D4849A,#C9A96E,#D4849A);
+      background-size:200% auto;
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      animation:shimmer 5s ease infinite;
+    }
+
+    ::-webkit-scrollbar { width:8px; }
+    ::-webkit-scrollbar-track { background:#FDF6F0; }
+    ::-webkit-scrollbar-thumb { background:linear-gradient(#F4B8C1,#E8A0AB); border-radius:10px; }
+
+    .toast {
+      position:fixed; bottom:100px; left:50%; transform:translateX(-50%) translateY(100px); opacity:0;
+      background:#fff; color:#5C3D3D; padding:16px 32px;
+      border-radius:20px; font-weight:600; z-index:9999; transition:all 0.5s cubic-bezier(0.16,1,0.3,1);
+      box-shadow:0 10px 40px rgba(244,184,193,0.4);
+      border:1px solid #F4D4DA;
+    }
+    .toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+
+    .bow-decoration::before {
+      content:'🎀';
+      position:absolute;
+      font-size:1.5rem;
+    }
+  </style>
+</head>
+<body class="bg-lace">
+
+  <!-- TOAST -->
+  <div id="toast" class="toast">
+    <div class="flex items-center gap-3">
+      <span class="text-lg">🎀</span>
+      <span id="toast-msg">Pesanan ditambahkan!</span>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-500" id="navbar">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-ck-rose to-ck-dusty flex items-center justify-center text-white font-bold text-lg group-hover:scale-110 transition-transform shadow-md">H</div>
+        <div>
+          <span class="font-display font-bold text-lg text-ck-mocha tracking-wide">Hawa & Nuha</span>
+          <p class="text-[10px] text-ck-gold font-semibold tracking-[0.2em] uppercase -mt-1">Menu Kuliner Hangat 🎀</p>
+        </div>
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#beranda" class="text-sm text-ck-brown hover:text-ck-deep transition-colors font-medium">Beranda</a>
+        <a href="#menu" class="text-sm text-ck-brown hover:text-ck-deep transition-colors font-medium">Menu</a>
+        <a href="#tentang" class="text-sm text-ck-brown hover:text-ck-deep transition-colors font-medium">Tentang Kami</a>
+        <a href="#kontak" class="text-sm text-ck-brown hover:text-ck-deep transition-colors font-medium">Kontak</a>
+        <a href="https://wa.me/6281234567890?text=Halo%20Hawa%20%26%20Nuha!%20Saya%20mau%20pesan%20Nasi%20Goreng%20Seafood%20🦐" target="_blank"
+           class="btn-order px-5 py-2.5 rounded-full text-sm font-bold flex items-center gap-2 shadow-sm">
+          <i data-lucide="shopping-bag" class="w-4 h-4"></i> Pesan Sekarang
+        </a>
+      </div>
+      <button id="mobile-menu-btn" class="md:hidden text-ck-brown hover:text-ck-deep transition-colors">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+    <div id="mobile-menu" class="md:hidden hidden bg-white/95 backdrop-blur-xl border-t border-ck-border">
+      <div class="px-6 py-6 flex flex-col gap-4">
+        <a href="#beranda" class="text-ck-brown hover:text-ck-deep transition-colors font-medium py-2 mobile-link">Beranda</a>
+        <a href="#menu" class="text-ck-brown hover:text-ck-deep transition-colors font-medium py-2 mobile-link">Menu</a>
+        <a href="#tentang" class="text-ck-brown hover:text-ck-deep transition-colors font-medium py-2 mobile-link">Tentang Kami</a>
+        <a href="#kontak" class="text-ck-brown hover:text-ck-deep transition-colors font-medium py-2 mobile-link">Kontak</a>
+        <a href="https://wa.me/6281234567890" target="_blank" class="btn-order px-5 py-3 rounded-full text-sm font-bold text-center flex items-center justify-center gap-2 mt-2">
+          <i data-lucide="shopping-bag" class="w-4 h-4"></i> Pesan Sekarang
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section id="beranda" class="min-h-screen relative flex items-center hero-gradient overflow-hidden">
+    <!-- Floating decorations -->
+    <div class="drift-anim absolute text-3xl opacity-20" style="top:12%;left:8%">🌸</div>
+    <div class="drift-anim absolute text-2xl opacity-15" style="top:20%;right:12%;animation-delay:2s">🦋</div>
+    <div class="drift-anim absolute text-xl opacity-15" style="top:65%;left:5%;animation-delay:4s">🎀</div>
+    <div class="drift-anim absolute text-2xl opacity-15" style="top:75%;right:8%;animation-delay:1s">💕</div>
+    <div class="drift-anim absolute text-xl opacity-10" style="top:40%;left:45%;animation-delay:3s">✿</div>
+
+    <div class="max-w-7xl mx-auto px-6 pt-28 pb-16 grid lg:grid-cols-2 gap-12 items-center relative z-10">
+      <!-- Left Content -->
+      <div class="space-y-8">
+        <div class="inline-flex items-center gap-2 bg-white/70 backdrop-blur-sm border border-ck-border rounded-full px-4 py-2 shadow-sm">
+          <span class="w-2 h-2 bg-ck-rose rounded-full animate-pulse"></span>
+          <span class="text-xs font-semibold text-ck-brown tracking-wider uppercase">Buka Setiap Hari · 17.00 - 00.00 🕯️</span>
+        </div>
+
+        <h1 class="font-display font-900 text-5xl md:text-7xl lg:text-8xl leading-[0.9] tracking-tight">
+          <span class="text-ck-mocha">Hawa & Nuha</span><br>
+          <span class="text-gradient-coquette">Menu Favorit</span><br>
+          <span class="text-ck-wine text-4xl md:text-5xl lg:text-6xl font-bold italic">hangat, gurih & bikin nagih</span>
+        </h1>
+
+        <p class="text-ck-brown text-lg md:text-xl leading-relaxed max-w-lg font-light">
+          Dari <strong class="text-ck-gold font-semibold">Nasi Goreng Seafood</strong> hingga <strong class="text-ck-gold font-semibold">Martabak Telur</strong>, semua pilihan dibuat dengan rasa yang hangat, kaya rempah, dan tampilannya modern. 
+          <em class="text-ck-deep font-display">Cocok untuk santap siang, malam, atau acara keluarga.</em> 🤍
+        </p>
+
+        <div class="flex flex-wrap gap-4">
+          <a href="#menu" class="btn-order px-8 py-4 rounded-full font-bold text-lg flex items-center gap-3 shadow-md">
+            🎀 Lihat Menu
+          </a>
+          <a href="https://wa.me/6281234567890?text=Halo%20Hawa%20%26%20Nuha!%20Saya%20mau%20pesan%20menu%20favorit%20kalian" target="_blank"
+             class="btn-order-white px-8 py-4 rounded-full font-bold text-lg flex items-center gap-3">
+            💬 WhatsApp
+          </a>
+        </div>
+
+        <div class="flex items-center gap-8 pt-4">
+          <div class="text-center">
+            <p class="text-3xl font-bold text-ck-gold">10+</p>
+            <p class="text-xs text-ck-taupe font-medium">Tahun Resep</p>
+          </div>
+          <div class="w-px h-10 bg-ck-border"></div>
+          <div class="text-center">
+            <p class="text-3xl font-bold text-ck-gold">50K+</p>
+            <p class="text-xs text-ck-taupe font-medium">Porsi Terjual</p>
+          </div>
+          <div class="w-px h-10 bg-ck-border"></div>
+          <div class="text-center">
+            <p class="text-3xl font-bold text-ck-gold">4.9</p>
+            <p class="text-xs text-ck-taupe font-medium flex items-center gap-1"><i data-lucide="star" class="w-3 h-3 text-ck-gold fill-ck-gold"></i>Rating</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Hero Image -->
+      <div class="relative flex justify-center items-center">
+        <div class="absolute inset-0 bg-gradient-to-br from-ck-rose/15 to-ck-blush/20 rounded-full blur-[60px]"></div>
+        <div class="relative float-anim">
+          <!-- Decorative ring -->
+          <div class="absolute -inset-4 rounded-full border-2 border-dashed border-ck-border/60 sway-anim"></div>
+          <div class="w-72 h-72 md:w-96 md:h-96 rounded-full overflow-hidden border-4 border-ck-rose/40 shadow-xl shadow-ck-rose/20">
+            <img src="https://picsum.photos/seed/nasigoreng-seafood-hero/600/600.jpg" alt="Nasi Goreng Seafood" class="w-full h-full object-cover">
+          </div>
+          <div class="steam-particle" style="top:-10px;left:40%;animation-delay:0s"></div>
+          <div class="steam-particle" style="top:-10px;left:55%;animation-delay:0.5s"></div>
+          <div class="steam-particle" style="top:-10px;left:48%;animation-delay:1s"></div>
+          <div class="steam-particle" style="top:-10px;left:62%;animation-delay:1.5s"></div>
+
+          <div class="absolute -top-4 -right-4 bg-white px-4 py-2 rounded-full text-sm font-bold shadow-md sway-anim flex items-center gap-1.5 border border-ck-border">
+            <span>⭐</span><span class="text-ck-mocha">Best Seller</span>
+          </div>
+          <div class="absolute -bottom-2 -left-4 bg-white px-4 py-2 rounded-full text-sm font-bold shadow-md sway-anim flex items-center gap-1.5 border border-ck-border" style="animation-delay:1s">
+            <span>🦐</span><span class="text-ck-mocha">Seafood Fresh</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+      <span class="text-xs text-ck-taupe font-medium">scroll ke bawah</span>
+      <i data-lucide="chevron-down" class="w-5 h-5 text-ck-taupe"></i>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="bg-ck-blush/60 py-3 overflow-hidden border-y border-ck-border/50">
+    <div class="flex whitespace-nowrap marquee-track" style="width:max-content">
+      <span class="text-sm font-medium text-ck-wine mx-8">🍚 Nasi Goreng Seafood</span>
+      <span class="text-sm text-ck-rose mx-4">✿</span>
+      <span class="text-sm font-medium text-ck-wine mx-8">🍢 Sate Ayam</span>
+      <span class="text-sm text-ck-rose mx-4">✿</span>
+      <span class="text-sm font-medium text-ck-wine mx-8">🥟 Dimsum</span>
+      <span class="text-sm text-ck-rose mx-4">✿</span>
+      <span class="text-sm font-medium text-ck-wine mx-8">🥣 Soto Ayam</span>
+      <span class="text-sm text-ck-rose mx-4">✿</span>
+      <span class="text-sm font-medium text-ck-wine mx-8">🍲 Bakso Cincang Biasa</span>
+      <span class="text-sm text-ck-rose mx-4">✿</span>
+      <span class="text-sm font-medium text-ck-wine mx-8">🌶️ Bakso Mercon</span>
+      <span class="text-sm text-ck-rose mx-4">✿</span>
+      <span class="text-sm font-medium text-ck-wine mx-8">🥚 Martabak Telur</span>
+      <span class="text-sm text-ck-rose mx-4">✿</span>
+      <span class="text-sm font-medium text-ck-wine mx-8">🍚 Nasi Goreng Seafood</span>
+      <span class="text-sm text-ck-rose mx-4">✿</span>
+      <span class="text-sm font-medium text-ck-wine mx-8">🍢 Sate Ayam</span>
+      <span class="text-sm text-ck-rose mx-4">✿</span>
+      <span class="text-sm font-medium text-ck-wine mx-8">🥟 Dimsum</span>
+      <span class="text-sm text-ck-rose mx-4">✿</span>
+      <span class="text-sm font-medium text-ck-wine mx-8">🥣 Soto Ayam</span>
+      <span class="text-sm text-ck-rose mx-4">✿</span>
+      <span class="text-sm font-medium text-ck-wine mx-8">🍲 Bakso Cincang Biasa</span>
+      <span class="text-sm text-ck-rose mx-4">✿</span>
+      <span class="text-sm font-medium text-ck-wine mx-8">🌶️ Bakso Mercon</span>
+      <span class="text-sm text-ck-rose mx-4">✿</span>
+      <span class="text-sm font-medium text-ck-wine mx-8">🥚 Martabak Telur</span>
+    </div>
+  </div>
+
+  <!-- MENU SECTION -->
+  <section id="menu" class="py-24 md:py-32 relative">
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="text-center mb-16 reveal">
+        <span class="inline-block text-xs font-bold tracking-[0.3em] uppercase text-ck-gold bg-ck-goldlt/30 px-4 py-2 rounded-full">📋 Pilihan Menu</span>
+        <h2 class="font-display font-bold text-4xl md:text-6xl text-ck-mocha mb-6 mt-4">
+          Menu <span class="text-gradient-coquette italic">Hawa & Nuha</span>
+        </h2>
+        <p class="text-ck-taupe text-lg max-w-2xl mx-auto font-light">
+          Dari makanan hangat yang gurih hingga rasa pedas yang nagih, semua pilihan kami dibuat dengan bahan berkualitas dan porsi yang memuaskan. 🤍
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <div class="menu-card bg-white rounded-3xl overflow-hidden border border-ck-border shadow-sm group reveal" style="transition-delay:0.1s">
+          <div class="relative h-56 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=900&q=80" alt="Nasi Goreng Seafood" class="menu-img w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent"></div>
+            <div class="menu-badge absolute top-4 left-4 bg-ck-rose text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm">
+              ⭐ BEST SELLER
+            </div>
+            <div class="absolute bottom-4 right-4 price-tag pl-5 pr-3 py-1.5 font-extrabold text-sm">
+              Rp 35K
+            </div>
+          </div>
+          <div class="p-6 space-y-3">
+            <h3 class="font-display font-bold text-xl text-ck-mocha group-hover:text-ck-deep transition-colors">Nasi Goreng Seafood</h3>
+            <p class="text-ck-taupe text-sm leading-relaxed">Nasi goreng dengan cita rasa gurih, aroma bumbu yang kuat, dan kombinasi seafood yang membuat setiap suapan terasa istimewa.</p>
+            <div class="flex items-center gap-2 pt-2">
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">Seafood</span>
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">Gurih</span>
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">Lezat</span>
+            </div>
+            <button onclick="pesan('Nasi Goreng Seafood - Rp 35.000')" class="w-full mt-4 btn-order py-3 rounded-2xl font-bold text-sm flex items-center justify-center gap-2">
+              🎀 Pesan via WhatsApp
+            </button>
+          </div>
+        </div>
+
+        <div class="menu-card bg-white rounded-3xl overflow-hidden border border-ck-border shadow-sm group reveal" style="transition-delay:0.2s">
+          <div class="relative h-56 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=900&q=80" alt="Sate Ayam" class="menu-img w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent"></div>
+            <div class="menu-badge absolute top-4 left-4 bg-ck-dusty text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm">
+              🍢 POPULER
+            </div>
+            <div class="absolute bottom-4 right-4 price-tag pl-5 pr-3 py-1.5 font-extrabold text-sm">
+              Rp 28K
+            </div>
+          </div>
+          <div class="p-6 space-y-3">
+            <h3 class="font-display font-bold text-xl text-ck-mocha group-hover:text-ck-deep transition-colors">Sate Ayam</h3>
+            <p class="text-ck-taupe text-sm leading-relaxed">Potongan ayam yang dipanggang sempurna, dibalut bumbu kacang yang creamy dan aroma rempah yang sedap.</p>
+            <div class="flex items-center gap-2 pt-2">
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">Ayam</span>
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">Kacang</span>
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">Bakar</span>
+            </div>
+            <button onclick="pesan('Sate Ayam - Rp 28.000')" class="w-full mt-4 btn-order py-3 rounded-2xl font-bold text-sm flex items-center justify-center gap-2">
+              🎀 Pesan via WhatsApp
+            </button>
+          </div>
+        </div>
+
+        <div class="menu-card bg-white rounded-3xl overflow-hidden border border-ck-border shadow-sm group reveal" style="transition-delay:0.3s">
+          <div class="relative h-56 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=900&q=80" alt="Dimsum" class="menu-img w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent"></div>
+            <div class="menu-badge absolute top-4 left-4 bg-ck-gold text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm">
+              🥟 RINGAN
+            </div>
+            <div class="absolute bottom-4 right-4 price-tag pl-5 pr-3 py-1.5 font-extrabold text-sm">
+              Rp 24K
+            </div>
+          </div>
+          <div class="p-6 space-y-3">
+            <h3 class="font-display font-bold text-xl text-ck-mocha group-hover:text-ck-deep transition-colors">Udang saus padang</h3>
+            <p class="text-ck-taupe text-sm leading-relaxed">Udang saus padang yang sangat gurih dan pedas.</p>
+            <div class="flex items-center gap-2 pt-2">
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">Kenyal</span>
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">Gurih</span>
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">Hangat</span>
+            </div>
+            <button onclick="pesan('Dimsum - Rp 24.000')" class="w-full mt-4 btn-order py-3 rounded-2xl font-bold text-sm flex items-center justify-center gap-2">
+              🎀 Pesan via WhatsApp
+            </button>
+          </div>
+        </div>
+
+        <div class="menu-card bg-white rounded-3xl overflow-hidden border border-ck-border shadow-sm group reveal" style="transition-delay:0.15s">
+          <div class="relative h-56 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80" alt="Soto Ayam" class="menu-img w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent"></div>
+            <div class="menu-badge absolute top-4 left-4 bg-ck-mocha text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm">
+              🥣 FAVORIT
+            </div>
+            <div class="absolute bottom-4 right-4 price-tag pl-5 pr-3 py-1.5 font-extrabold text-sm">
+              Rp 22K
+            </div>
+          </div>
+          <div class="p-6 space-y-3">
+            <h3 class="font-display font-bold text-xl text-ck-mocha group-hover:text-ck-deep transition-colors">Soto Ayam</h3>
+            <p class="text-ck-taupe text-sm leading-relaxed">Kuah kaldu ayam yang hangat dan kaya rempah, disajikan dengan potongan ayam, bihun, dan pelengkap yang menyatu sempurna.</p>
+            <div class="flex items-center gap-2 pt-2">
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">Ayam</span>
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">Kaldu</span>
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">Hangat</span>
+            </div>
+            <button onclick="pesan('Soto Ayam - Rp 22.000')" class="w-full mt-4 btn-order py-3 rounded-2xl font-bold text-sm flex items-center justify-center gap-2">
+              🎀 Pesan via WhatsApp
+            </button>
+          </div>
+        </div>
+
+        <div class="menu-card bg-white rounded-3xl overflow-hidden border border-ck-border shadow-sm group reveal" style="transition-delay:0.25s">
+          <div class="relative h-56 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1562967916-eb82221dfb92?auto=format&fit=crop&w=900&q=80" alt="Bakso Cincang Biasa" class="menu-img w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent"></div>
+            <div class="menu-badge absolute top-4 left-4 bg-green-500 text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm">
+              🍲 KLASIK
+            </div>
+            <div class="absolute bottom-4 right-4 price-tag pl-5 pr-3 py-1.5 font-extrabold text-sm">
+              Rp 20K
+            </div>
+          </div>
+          <div class="p-6 space-y-3">
+            <h3 class="font-display font-bold text-xl text-ck-mocha group-hover:text-ck-deep transition-colors">Ayam bumbu western</h3>
+            <p class="text-ck-taupe text-sm leading-relaxed">Ayam bumbu western yang lezat dan gurih, cocok untuk makan malam anda.</p>
+            <div class="flex items-center gap-2 pt-2">
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">ayam</span>
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">Daging</span>
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">Biasa</span>
+            </div>
+            <button onclick="pesan('Bakso Cincang Biasa - Rp 20.000')" class="w-full mt-4 btn-order py-3 rounded-2xl font-bold text-sm flex items-center justify-center gap-2">
+              🎀 Pesan via WhatsApp
+            </button>
+          </div>
+        </div>
+
+        <div class="menu-card bg-white rounded-3xl overflow-hidden border border-ck-border shadow-sm group reveal" style="transition-delay:0.35s">
+          <div class="relative h-56 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=900&q=80" alt="Bakso Mercon" class="menu-img w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent"></div>
+            <div class="menu-badge absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm">
+              🌶️ PEDAS
+            </div>
+            <div class="absolute bottom-4 right-4 price-tag pl-5 pr-3 py-1.5 font-extrabold text-sm">
+              Rp 25K
+            </div>
+          </div>
+          <div class="p-6 space-y-3">
+            <h3 class="font-display font-bold text-xl text-ck-mocha group-hover:text-ck-deep transition-colors">Udang tumis rumahan</h3>
+            <p class="text-ck-taupe text-sm leading-relaxed">Udang tumis yang terasa seperti amsakan ibunda.</p>
+            <div class="flex items-center gap-2 pt-2">
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">gurih</span>
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">Pedas</span>
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">Daging</span>
+            </div>
+            <button onclick="pesan('Bakso Mercon - Rp 25.000')" class="w-full mt-4 btn-order py-3 rounded-2xl font-bold text-sm flex items-center justify-center gap-2">
+              🎀 Pesan via WhatsApp
+            </button>
+          </div>
+        </div>
+
+        <div class="menu-card bg-white rounded-3xl overflow-hidden border border-ck-border shadow-sm group reveal" style="transition-delay:0.4s">
+          <div class="relative h-56 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80" alt="Martabak Telur" class="menu-img w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent"></div>
+            <div class="menu-badge absolute top-4 left-4 bg-amber-500 text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm">
+              🥚 KLASIK
+            </div>
+            <div class="absolute bottom-4 right-4 price-tag pl-5 pr-3 py-1.5 font-extrabold text-sm">
+              Rp 18K
+            </div>
+          </div>
+          <div class="p-6 space-y-3">
+            <h3 class="font-display font-bold text-xl text-ck-mocha group-hover:text-ck-deep transition-colors">Martabak Telur</h3>
+            <p class="text-ck-taupe text-sm leading-relaxed">Martabak telur dengan isian yang gurih, renyah di luar, dan lembut di dalam untuk pengalaman makan yang sangat memuaskan.</p>
+            <div class="flex items-center gap-2 pt-2">
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">Telur</span>
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">Gurih</span>
+              <span class="text-xs bg-ck-blush text-ck-wine px-2.5 py-1 rounded-full">Klasik</span>
+            </div>
+            <button onclick="pesan('Martabak Telur - Rp 18.000')" class="w-full mt-4 btn-order py-3 rounded-2xl font-bold text-sm flex items-center justify-center gap-2">
+              🎀 Pesan via WhatsApp
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Extra toppings -->
+      <div class="mt-16 reveal">
+        <h3 class="font-display font-bold text-2xl text-ck-mocha text-center mb-8">Tambahan Topping 🧈</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-white border border-ck-border rounded-2xl p-4 text-center hover:shadow-md hover:border-ck-rose/50 transition-all group">
+            <span class="text-3xl group-hover:scale-110 transition-transform inline-block">🥚</span>
+            <p class="text-ck-mocha font-semibold mt-2 text-sm">Telur Dadar</p>
+            <p class="text-ck-gold font-bold text-sm">Rp 5K</p>
+          </div>
+          <div class="bg-white border border-ck-border rounded-2xl p-4 text-center hover:shadow-md hover:border-ck-rose/50 transition-all group">
+            <span class="text-3xl group-hover:scale-110 transition-transform inline-block">🦐</span>
+            <p class="text-ck-mocha font-semibold mt-2 text-sm">Udang +3</p>
+            <p class="text-ck-gold font-bold text-sm">Rp 10K</p>
+          </div>
+          <div class="bg-white border border-ck-border rounded-2xl p-4 text-center hover:shadow-md hover:border-ck-rose/50 transition-all group">
+            <span class="text-3xl group-hover:scale-110 transition-transform inline-block">🧀</span>
+            <p class="text-ck-mocha font-semibold mt-2 text-sm">Keju Mozarella</p>
+            <p class="text-ck-gold font-bold text-sm">Rp 8K</p>
+          </div>
+          <div class="bg-white border border-ck-border rounded-2xl p-4 text-center hover:shadow-md hover:border-ck-rose/50 transition-all group">
+            <span class="text-3xl group-hover:scale-110 transition-transform inline-block">🌶️</span>
+            <p class="text-ck-mocha font-semibold mt-2 text-sm">Extra Pedas</p>
+            <p class="text-ck-gold font-bold text-sm">Rp 3K</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section id="tentang" class="py-24 md:py-32 relative overflow-hidden bg-ck-blush/30">
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <!-- Left: Images -->
+        <div class="relative reveal-left">
+          <div class="grid grid-cols-2 gap-4">
+            <div class="space-y-4">
+              <div class="rounded-3xl overflow-hidden h-48 border-2 border-ck-border shadow-sm">
+                <img src="https://picsum.photos/seed/cooking-wok-fire/400/400.jpg" alt="Memasak" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700">
+              </div>
+              <div class="rounded-3xl overflow-hidden h-64 border-2 border-ck-border shadow-sm">
+                <img src="https://picsum.photos/seed/fresh-seafood-market/400/500.jpg" alt="Seafood Segar" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700">
+              </div>
+            </div>
+            <div class="space-y-4 pt-8">
+              <div class="rounded-3xl overflow-hidden h-64 border-2 border-ck-border shadow-sm">
+                <img src="https://picsum.photos/seed/indonesian-spices-bumbu/400/500.jpg" alt="Bumbu" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700">
+              </div>
+              <div class="rounded-3xl overflow-hidden h-48 border-2 border-ck-border shadow-sm">
+                <img src="https://picsum.photos/seed/fried-rice-wok-close/400/400.jpg" alt="Nasi Goreng" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700">
+              </div>
+            </div>
+          </div>
+          <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-white px-6 py-3 rounded-2xl shadow-md sway-anim border border-ck-border">
+            <p class="text-ck-mocha font-bold text-sm text-center">🍳 Dimasak pakai api besar langsung di depan kamu!</p>
+          </div>
+        </div>
+
+        <!-- Right: Story -->
+        <div class="space-y-8 reveal-right">
+          <span class="inline-block text-xs font-bold tracking-[0.3em] uppercase text-ck-gold bg-ck-goldlt/30 px-4 py-2 rounded-full">💕 Cerita Kami</span>
+          <h2 class="font-display font-bold text-4xl md:text-5xl text-ck-mocha leading-tight">
+            Dari Dapur Keluarga<br>Jadi <span class="text-gradient-coquette italic">Menu Favorit</span>
+          </h2>
+          <div class="space-y-5 text-ck-brown leading-relaxed">
+            <p>
+              Semua bermula dari <strong class="text-ck-gold">Hawa</strong> yang suka menciptakan rasa hangat dari bumbu sederhana, lalu <strong class="text-ck-gold">Nuha</strong> yang membawa ide dan semangat untuk menyajikan menu yang lebih modern serta mudah diterima banyak orang.
+            </p>
+            <p>
+              Dari nasi goreng, sate ayam, dimsum, hingga martabak telur, setiap hidangan dibuat dengan komposisi yang seimbang, rasa yang familiar, dan penyajian yang tetap terasa hangat dan nyaman untuk dinikmati bersama keluarga.
+            </p>
+            <p>
+              Kunci kami ada pada <em class="text-ck-deep font-display italic">bumbu yang terasa natural, bahan yang dipilih dengan hati-hati, dan proses masak yang tidak terburu-buru.</em> Hasilnya, setiap menu terasa enak, konsisten, dan istimewa. 🎀
+            </p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 pt-4">
+            <div class="bg-white border border-ck-border rounded-2xl p-5 text-center hover:shadow-md hover:border-ck-rose/40 transition-all">
+              <div class="w-16 h-16 rounded-full mx-auto mb-3 overflow-hidden border-2 border-ck-rose/40 shadow-sm">
+                <img src="https://picsum.photos/seed/woman-chef-hawa/200/200.jpg" alt="Hawa" class="w-full h-full object-cover">
+              </div>
+              <h4 class="font-display font-bold text-ck-mocha">Hawa</h4>
+              <p class="text-xs text-ck-gold font-medium mt-1">Head Chef & Creator</p>
+              <p class="text-xs text-ck-taupe mt-2 italic font-display">"Masak itu cinta yang bisa dirasakan lidah."</p>
+            </div>
+            <div class="bg-white border border-ck-border rounded-2xl p-5 text-center hover:shadow-md hover:border-ck-rose/40 transition-all">
+              <div class="w-16 h-16 rounded-full mx-auto mb-3 overflow-hidden border-2 border-ck-rose/40 shadow-sm">
+                <img src="https://picsum.photos/seed/woman-business-nuha/200/200.jpg" alt="Nuha" class="w-full h-full object-cover">
+              </div>
+              <h4 class="font-display font-bold text-ck-mocha">Nuha</h4>
+              <p class="text-xs text-ck-gold font-medium mt-1">Co-Founder & Marketing</p>
+              <p class="text-xs text-ck-taupe mt-2 italic font-display">"Masa bodo jam segitu, yang penting nasgor enak!"</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="py-24 md:py-32 relative">
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="text-center mb-16 reveal">
+        <span class="inline-block text-xs font-bold tracking-[0.3em] uppercase text-ck-gold bg-ck-goldlt/30 px-4 py-2 rounded-full">💬 Kata Mereka</span>
+        <h2 class="font-display font-bold text-4xl md:text-5xl text-ck-mocha mt-6">
+          Pelanggan <span class="text-gradient-coquette italic">Ketagihan</span>
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white border border-ck-border rounded-3xl p-6 hover:shadow-lg hover:border-ck-rose/40 transition-all duration-300 reveal" style="transition-delay:0.1s">
+          <div class="flex gap-1 mb-4">
+            <i data-lucide="star" class="w-4 h-4 text-ck-gold fill-ck-gold"></i>
+            <i data-lucide="star" class="w-4 h-4 text-ck-gold fill-ck-gold"></i>
+            <i data-lucide="star" class="w-4 h-4 text-ck-gold fill-ck-gold"></i>
+            <i data-lucide="star" class="w-4 h-4 text-ck-gold fill-ck-gold"></i>
+            <i data-lucide="star" class="w-4 h-4 text-ck-gold fill-ck-gold"></i>
+          </div>
+          <p class="text-ck-brown text-sm leading-relaxed mb-4">"Udangnya gede banget dan masih segar! Sambalnya juga nagih, pedesnya pas. Udah 3x minggu ini pesan, gak bosen-bosen!"</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-ck-rose to-ck-dusty flex items-center justify-center text-white font-bold text-sm">BR</div>
+            <div>
+              <p class="text-ck-mocha font-semibold text-sm">Budi Raharjo</p>
+              <p class="text-ck-taupe text-xs">Pelanggan Setia</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white border border-ck-border rounded-3xl p-6 hover:shadow-lg hover:border-ck-rose/40 transition-all duration-300 reveal" style="transition-delay:0.2s">
+          <div class="flex gap-1 mb-4">
+            <i data-lucide="star" class="w-4 h-4 text-ck-gold fill-ck-gold"></i>
+            <i data-lucide="star" class="w-4 h-4 text-ck-gold fill-ck-gold"></i>
+            <i data-lucide="star" class="w-4 h-4 text-ck-gold fill-ck-gold"></i>
+            <i data-lucide="star" class="w-4 h-4 text-ck-gold fill-ck-gold"></i>
+            <i data-lucide="star" class="w-4 h-4 text-ck-gold fill-ck-gold"></i>
+          </div>
+          <p class="text-ck-brown text-sm leading-relaxed mb-4">"Nasgor hitamnya LUAR BIASA! Tinta cuminya beneran, bukan pewarna. Aromanya harum, rasanya creamy gurih. Worth every rupiah!"</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-ck-rose to-ck-dusty flex items-center justify-center text-white font-bold text-sm">SA</div>
+            <div>
+              <p class="text-ck-mocha font-semibold text-sm">Sari Amalia</p>
+              <p class="text-ck-taupe text-xs">Food Blogger</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white border border-ck-border rounded-3xl p-6 hover:shadow-lg hover:border-ck-rose/40 transition-all duration-300 reveal" style="transition-delay:0.3s">
+          <div class="flex gap-1 mb-4">
+            <i data-lucide="star" class="w-4 h-4 text-ck-gold fill-ck-gold"></i>
+            <i data-lucide="star" class="w-4 h-4 text-ck-gold fill-ck-gold"></i>
+            <i data-lucide="star" class="w-4 h-4 text-ck-gold fill-ck-gold"></i>
+            <i data-lucide="star" class="w-4 h-4 text-ck-gold fill-ck-gold"></i>
+            <i data-lucide="star" class="w-4 h-4 text-ck-gold fill-ck-gold"></i>
+          </div>
+          <p class="text-ck-brown text-sm leading-relaxed mb-4">"Yang kecombrang itu sih TOP! Aromanya aja udah bikin laper. Hawa & Nuha memang jagonya nasgor seafood. Semoga makin sukses!"</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-ck-rose to-ck-dusty flex items-center justify-center text-white font-bold text-sm">DW</div>
+            <div>
+              <p class="text-ck-mocha font-semibold text-sm">Dimas Wicaksono</p>
+              <p class="text-ck-taupe text-xs">Warga Sekitar</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="kontak" class="py-24 md:py-32 relative bg-ck-blush/30">
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="text-center mb-16 reveal">
+        <span class="inline-block text-xs font-bold tracking-[0.3em] uppercase text-ck-gold bg-ck-goldlt/30 px-4 py-2 rounded-full">📍 Hubungi Kami</span>
+        <h2 class="font-display font-bold text-4xl md:text-5xl text-ck-mocha mt-6">
+          Yuk, <span class="text-gradient-coquette italic">Pesan Sekarang!</span>
+        </h2>
+        <p class="text-ck-taupe text-lg mt-4 max-w-xl mx-auto font-light">
+          Bisa pesan lewat WhatsApp, telpon, atau DM Instagram. Kami juga menerima pesanan untuk acara! 🎀
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <!-- WhatsApp -->
+        <a href="https://wa.me/6281234567890?text=Halo%20Hawa%20%26%20Nuha!%20Saya%20mau%20pesan%20Nasi%20Goreng%20Seafood%20🦐" target="_blank"
+           class="bg-white border border-ck-border rounded-3xl p-8 text-center hover:shadow-lg hover:border-green-300 transition-all duration-300 group reveal" style="transition-delay:0.1s">
+          <div class="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+            <svg class="w-8 h-8 text-green-500" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </div>
+          <h3 class="font-display font-bold text-xl text-ck-mocha group-hover:text-green-600 transition-colors">WhatsApp</h3>
+          <p class="text-ck-taupe text-sm mt-2">Chat langsung untuk pesan</p>
+          <p class="text-ck-gold font-bold text-lg mt-3">0812-3456-7890</p>
+        </a>
+
+        <!-- Telepon -->
+        <a href="tel:+6281234567890"
+           class="bg-white border border-ck-border rounded-3xl p-8 text-center hover:shadow-lg hover:border-ck-rose transition-all duration-300 group reveal" style="transition-delay:0.2s">
+          <div class="w-16 h-16 rounded-2xl bg-ck-blush flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+            <i data-lucide="phone" class="w-8 h-8 text-ck-deep"></i>
+          </div>
+          <h3 class="font-display font-bold text-xl text-ck-mocha group-hover:text-ck-deep transition-colors">Telepon</h3>
+          <p class="text-ck-taupe text-sm mt-2">Telepon langsung ke kami</p>
+          <p class="text-ck-gold font-bold text-lg mt-3">0812-3456-7890</p>
+        </a>
+
+        <!-- Instagram -->
+        <a href="https://instagram.com/nasgor.seafood.hawanuha" target="_blank"
+           class="bg-white border border-ck-border rounded-3xl p-8 text-center hover:shadow-lg hover:border-ck-rose transition-all duration-300 group reveal" style="transition-delay:0.3s">
+          <div class="w-16 h-16 rounded-2xl bg-ck-blush flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+            <svg class="w-8 h-8 text-ck-deep" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </div>
+          <h3 class="font-display font-bold text-xl text-ck-mocha group-hover:text-ck-deep transition-colors">Instagram</h3>
+          <p class="text-ck-taupe text-sm mt-2">Follow untuk update menu</p>
+          <p class="text-ck-gold font-bold text-sm mt-3 break-all">@nasgor.seafood.hawanuha</p>
+        </a>
+      </div>
+
+      <!-- Location & Hours -->
+      <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mt-12">
+        <div class="bg-white border border-ck-border rounded-3xl p-8 reveal-left hover:shadow-md transition-shadow">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-ck-blush flex items-center justify-center">
+              <i data-lucide="map-pin" class="w-5 h-5 text-ck-deep"></i>
+            </div>
+            <h3 class="font-display font-bold text-xl text-ck-mocha">Lokasi</h3>
+          </div>
+          <p class="text-ck-brown text-sm leading-relaxed">
+            Jl. Raya Seafood No. 88, Kelurahan Bahari, Kecamatan Pesisir, Kota Pesisir Indah, 12345
+          </p>
+          <p class="text-ck-deep text-xs mt-3 font-medium">📍 Di depan Kantor Kelurahan Bahari, dekat lampu merah pertigaan</p>
+        </div>
+
+        <div class="bg-white border border-ck-border rounded-3xl p-8 reveal-right hover:shadow-md transition-shadow">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-ck-blush flex items-center justify-center">
+              <i data-lucide="clock" class="w-5 h-5 text-ck-deep"></i>
+            </div>
+            <h3 class="font-display font-bold text-xl text-ck-mocha">Jam Buka</h3>
+          </div>
+          <div class="space-y-2 text-sm">
+            <div class="flex justify-between text-ck-brown">
+              <span>Senin - Jumat</span>
+              <span class="text-ck-gold font-semibold">17.00 - 00.00</span>
+            </div>
+            <div class="flex justify-between text-ck-brown">
+              <span>Sabtu - Minggu</span>
+              <span class="text-ck-gold font-semibold">16.00 - 01.00</span>
+            </div>
+            <div class="flex justify-between text-ck-brown pt-2 border-t border-ck-borderlt">
+              <span>Hari Libur Nasional</span>
+              <span class="text-green-500 font-semibold">Tetap Buka! 🎉</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 relative overflow-hidden">
+    <div class="max-w-4xl mx-auto px-6 reveal">
+      <div class="bg-white border border-ck-border rounded-[2.5rem] p-10 md:p-16 text-center relative overflow-hidden shadow-sm">
+        <div class="absolute top-4 left-6 text-2xl opacity-10 drift-anim">🌸</div>
+        <div class="absolute top-8 right-10 text-xl opacity-10 drift-anim" style="animation-delay:2s">🦋</div>
+        <div class="absolute bottom-6 left-12 text-xl opacity-10 drift-anim" style="animation-delay:4s">🎀</div>
+        <div class="absolute bottom-4 right-6 text-2xl opacity-10 drift-anim" style="animation-delay:1s">✿</div>
+
+        <div class="relative z-10">
+          <span class="text-6xl mb-6 block">🦐🎀</span>
+          <h2 class="font-display font-bold text-3xl md:text-5xl text-ck-mocha mb-4">Lapar?</h2>
+          <p class="text-ck-taupe text-lg mb-8 max-w-lg mx-auto">Jangan tunda lagi! Pesan sekarang dan rasakan kenikmatan Nasi Goreng Seafood yang bikin nagih seharian!</p>
+          <a href="https://wa.me/6281234567890?text=Halo%20Hawa%20%26%20Nuha!%20Saya%20mau%20pesan%20Nasi%20Goreng%20Seafood%20🦐" target="_blank"
+             class="btn-order inline-flex items-center gap-3 px-10 py-5 rounded-full font-bold text-lg shadow-md">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Pesan Sekarang di WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-ck-border py-12 bg-white/50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-3 gap-8 mb-10">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-ck-rose to-ck-dusty flex items-center justify-center text-white font-bold text-lg">H</div>
+            <div>
+              <span class="font-display font-bold text-lg text-ck-mocha">Hawa & Nuha</span>
+              <p class="text-[10px] text-ck-gold font-semibold tracking-[0.2em] uppercase -mt-1">Menu Kuliner Hangat 🎀</p>
+            </div>
+          </div>
+          <p class="text-ck-taupe text-sm leading-relaxed">Menawarkan menu favorit yang hangat, gurih, dan dikenal banyak orang: nasi goreng seafood, sate ayam, dimsum, soto ayam, bakso, dan martabak telur.</p>
+        </div>
+        <div>
+          <h4 class="font-display font-bold text-ck-mocha mb-4">Menu Populer</h4>
+          <ul class="space-y-2 text-sm text-ck-taupe">
+            <li class="hover:text-ck-deep transition-colors cursor-pointer">🍚 Nasi Goreng Seafood</li>
+            <li class="hover:text-ck-deep transition-colors cursor-pointer">🍢 Sate Ayam</li>
+            <li class="hover:text-ck-deep transition-colors cursor-pointer">🥟 Udang Saus Padang</li>
+            <li class="hover:text-ck-deep transition-colors cursor-pointer">🥣 Soto Ayam</li>
+            <li class="hover:text-ck-deep transition-colors cursor-pointer">🍲 Tumis Udang Rumahan</li>
+            <li class="hover:text-ck-deep transition-colors cursor-pointer">🥚 Martabak Telur</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-display font-bold text-ck-mocha mb-4">Ikuti Kami</h4>
+          <div class="flex gap-3">
+            <a href="https://wa.me/6281234567890" target="_blank" class="w-10 h-10 rounded-xl bg-ck-blush flex items-center justify-center hover:bg-green-100 transition-colors group">
+              <svg class="w-5 h-5 text-ck-brown group-hover:text-green-500" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+            <a href="https://instagram.com/nasgor.seafood.hawanuha" target="_blank" class="w-10 h-10 rounded-xl bg-ck-blush flex items-center justify-center hover:bg-ck-rose/20 transition-colors group">
+              <svg class="w-5 h-5 text-ck-brown group-hover:text-ck-deep" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+            <a href="tel:+6281234567890" class="w-10 h-10 rounded-xl bg-ck-blush flex items-center justify-center hover:bg-ck-rose/20 transition-colors group">
+              <i data-lucide="phone" class="w-5 h-5 text-ck-brown group-hover:text-ck-deep"></i>
+            </a>
+          </div>
+          <div class="mt-4 text-sm text-ck-taupe">
+            <p>📱 0812-3456-7890</p>
+            <p>📸 @nasgor.seafood.hawanuha</p>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-ck-borderlt pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-ck-sand text-sm">© 2025 Nasi Goreng Seafood Hawa & Nuha. Semua hak dilindungi.</p>
+        <p class="text-ck-sand text-xs">Dibuat dengan 🤍 dan bumbu rahasia 🎀</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING WHATSAPP BUTTON -->
+  <a href="https://wa.me/6281234567890?text=Halo%20Hawa%20%26%20Nuha!%20Saya%20mau%20pesan%20Nasi%20Goreng%20Seafood%20🦐" target="_blank"
+     class="wa-float w-16 h-16 bg-green-500 rounded-full flex items-center justify-center hover:bg-green-400 transition-colors">
+    <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <script>
+    lucide.createIcons();
+
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.style.background = 'rgba(253,246,240,0.92)';
+        navbar.style.backdropFilter = 'blur(20px)';
+        navbar.style.borderBottom = '1px solid rgba(244,212,218,0.6)';
+      } else {
+        navbar.style.background = 'transparent';
+        navbar.style.backdropFilter = 'none';
+        navbar.style.borderBottom = 'none';
+      }
+    });
+
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    function pesan(item) {
+      const encoded = encodeURIComponent(`Halo Hawa & Nuha! Saya mau pesan:\n\n🍽️ ${item}\n\n📍 Lokasi pengiriman:\n📞 Nomor HP:\n\nTerima kasih! 🙏`);
+      const waURL = `https://wa.me/6281234567890?text=${encoded}`;
+      
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+      toastMsg.textContent = `🎀 Mengarahkan ke WhatsApp untuk pesan ${item.split(' - ')[0]}...`;
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+        window.open(waURL, '_blank');
+      }, 1500);
+    }
+  </script>
+</body>
+</html>
