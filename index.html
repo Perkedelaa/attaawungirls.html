@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezat Berkah - Kuliner Nusantara & Western</title>
+    <!-- Menggunakan Font Google untuk tampilan modern -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Menggunakan FontAwesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary-color: #ff6b35; /* Oranye nafsu makan */
+            --primary-dark: #e85a24;
+            --secondary-color: #2c3e50;
+            --text-color: #444;
+            --bg-color: #fdfdfd;
+            --card-bg: #ffffff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* --- HEADER --- */
+        header {
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+        .logo span { color: var(--primary-color); }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        nav a:hover { color: var(--primary-color); }
+
+        .cta-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .cta-btn:hover { background-color: var(--primary-dark); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://picsum.photos/seed/foodhero/1600/900');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 6rem 0;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+        .hero-btn:hover { transform: translateY(-3px); }
+
+        /* --- MENU SECTION --- */
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+        .section-title p {
+            color: #777;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding-bottom: 4rem;
+        }
+
+        .menu-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .order-btn {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background: transparent;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .order-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        .social-links {
+            margin-bottom: 1rem;
+        }
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: opacity 0.3s;
+        }
+        .social-links a:hover { opacity: 0.7; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .nav-wrapper {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .hero h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navigasi -->
+    <header>
+        <div class="container nav-wrapper">
+            <div class="logo">Lezat<span>Berkah</span></div>
+            <nav>
+                <ul>
+                    <li><a href="#">Beranda</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#kontak">Kontak</a></li>
+                </ul>
+            </nav>
+            <a href="#" class="cta-btn"><i class="fas fa-shopping-basket"></i> Pesan</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Rasakan Cita Rasa Nusantara Terbaik</h1>
+            <p>Dari sate tradisional hingga bakso pedas, semua ada di sini.</p>
+            <a href="#menu" class="hero-btn">Lihat Menu</a>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <main id="menu" class="container">
+        <div class="section-title">
+            <h2>Menu Favorit Kami</h2>
+            <p>Pilih hidangan lezat yang kami siapkan dengan bahan segar.</p>
+        </div>
+
+        <div class="menu-grid">
+            
+            <!-- 1. Dimsum -->
+            <article class="menu-card">
+                <!-- Gambar Dimsum -->
+                <img src="https://z-cdn-media.chatglm.cn/files/43db88ca-e6e0-4a7e-8bc4-8db5d4cb97ed.jpg?auth_key=1888936504-1411763d723945609b86f822ca16c865-0-c1f1d7dfd84b539a8517d0dea735a1d3" alt="Dimsum" class="card-img">
+                <div class="card-body">
+                    <h3 class="card-title">Dimsum Spesial</h3>
+                    <p class="card-desc">Dimsum lembut dengan isian udang dan daging yang gurih, disajikan dengan saus cocolan pedas manis.</p>
+                    <div class="card-footer">
+                        <span class="price">Rp 20.000</span>
+                        <button class="order-btn" onclick="pesan('Dimsum')">Pesan <i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 2. Sate Ayam -->
+            <article class="menu-card">
+                <!-- Gambar Sate -->
+                <img src="https://z-cdn-media.chatglm.cn/files/54828d70-4699-4004-9ab9-f396a8925e50.jpg?auth_key=1888936504-e77b8fa3b954485e900784e8b9a39287-0-b158a62f0fedd631fd406a4812a42214" alt="Sate Ayam" class="card-img">
+                <div class="card-body">
+                    <h3 class="card-title">Sate Ayam</h3>
+                    <p class="card-desc">Sate ayam empuk yang dipanggang sempurna dengan bumbu kacang kental yang kaya rasa.</p>
+                    <div class="card-footer">
+                        <span class="price">Rp 25.000</span>
+                        <button class="order-btn" onclick="pesan('Sate Ayam')">Pesan <i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 3. Soto Betawi -->
+            <article class="menu-card">
+                <!-- Gambar Soto -->
+                <img src="https://z-cdn-media.chatglm.cn/files/56ed0363-5b9f-4a67-8482-eb405da58fb8.jpg?auth_key=1888936504-3da9dd3bd3a041efba4c09b34e3b876d-0-0ee01f85b0d6784647df33b4f4d4dbac" alt="Soto Betawi" class="card-img">
+                <div class="card-body">
+                    <h3 class="card-title">Soto Betawi</h3>
+                    <p class="card-desc">Soto dengan kuah santan yang creamy, potongan daging sapi pilihan, dan irisan tomat segar.</p>
+                    <div class="card-footer">
+                        <span class="price">Rp 35.000</span>
+                        <button class="order-btn" onclick="pesan('Soto Betawi')">Pesan <i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 4. Nasi Goreng Seafood -->
+            <article class="menu-card">
+                <!-- Gambar Nasi Goreng -->
+                <img src="https://z-cdn-media.chatglm.cn/files/cca9c54f-72c9-4410-8323-8443b4b5f5dc.jpg?auth_key=1888936504-06053cf3659848d58099b4fccb9c5cc3-0-4831f9be314980675f63816aa6d0cfc0" alt="Nasi Goreng Seafood" class="card-img">
+                <div class="card-body">
+                    <h3 class="card-title">Nasi Goreng Seafood</h3>
+                    <p class="card-desc">Nasi goreng bumbu spesial dengan topping udang besar, cumi, ayam, dan telur mata sapi.</p>
+                    <div class="card-footer">
+                        <span class="price">Rp 32.000</span>
+                        <button class="order-btn" onclick="pesan('Nasi Goreng Seafood')">Pesan <i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 5. Martabak Telur -->
+            <article class="menu-card">
+                <!-- Gambar Martabak -->
+                <img src="https://z-cdn-media.chatglm.cn/files/9d5ae207-d96c-4f0d-a7b7-f9da1dbb77c5.jpg?auth_key=1888936504-c7cdf63bd0dc4ec19008ce4a9a044f03-0-acd52b63f03ee77899243a297c4afead" alt="Martabak Telur" class="card-img">
+                <div class="card-body">
+                    <h3 class="card-title">Martabak Telur</h3>
+                    <p class="card-desc">Kulit martabak super renyah dengan isian telur bebek, daging cincang, dan daun bawang melimpah.</p>
+                    <div class="card-footer">
+                        <span class="price">Rp 22.000</span>
+                        <button class="order-btn" onclick="pesan('Martabak Telur')">Pesan <i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 6. Bakso Mercon -->
+            <article class="menu-card">
+                <!-- Gambar Bakso Mercon -->
+                <img src="https://z-cdn-media.chatglm.cn/files/9197dc54-afed-479d-ad7d-fdac3d032cbc.jpg?auth_key=1888936504-e13e588342bb4bd7a6ab616c53093114-0-10231c42d40e34ecaf7518f93c567436" alt="Bakso Mercon" class="card-img">
+                <div class="card-body">
+                    <h3 class="card-title">Bakso Mercon</h3>
+                    <p class="card-desc">Bakso urat pedas dengan isian cabai rawit yang meledak di mulut, cocok untuk pecinta pedas.</p>
+                    <div class="card-footer">
+                        <span class="price">Rp 20.000</span>
+                        <button class="order-btn" onclick="pesan('Bakso Mercon')">Pesan <i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 7. Bakso Biasa -->
+            <article class="menu-card">
+                <!-- Gambar Bakso Biasa -->
+                <img src="https://z-cdn-media.chatglm.cn/files/6705cf2a-2faf-43e4-844a-1b2c763ee485.jpg?auth_key=1888936504-980e1890e9644189b9f4a3f4bace7e02-0-a60cb5b28a31986b837d1a2fcd27e6d8" alt="Bakso Biasa" class="card-img">
+                <div class="card-body">
+                    <h3 class="card-title">Bakso Biasa</h3>
+                    <p class="card-desc">Bakso sapi halus dan kasar dengan kuah kaldu sapi yang bening, segar, dan gurih tanpa pengawet.</p>
+                    <div class="card-footer">
+                        <span class="price">Rp 18.000</span>
+                        <button class="order-btn" onclick="pesan('Bakso Biasa')">Pesan <i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="kontak">
+        <div class="container">
+            <div class="logo" style="margin-bottom: 1rem; color: white;">Lezat<span>Berkah</span></div>
+            <p>Jl. Raya Kuliner No. 123, Jakarta Selatan</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+            </div>
+            <p>&copy; 2023 Lezat Berkah. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Simple Script for Interaction (No Alerts) -->
+    <script>
+        // Fungsi sederhana untuk simulasi pemesanan
+        function pesan(namaMenu) {
+            // Membuat notifikasi toast sederhana
+            const toast = document.createElement('div');
+            toast.style.position = 'fixed';
+            toast.style.bottom = '20px';
+            toast.style.right = '20px';
+            toast.style.backgroundColor = '#2c3e50';
+            toast.style.color = 'white';
+            toast.style.padding = '1rem 2rem';
+            toast.style.borderRadius = '8px';
+            toast.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
+            toast.style.zIndex = '2000';
+            toast.style.animation = 'fadeIn 0.5s, fadeOut 0.5s 2.5s forwards';
+            toast.innerText = `${namaMenu} berhasil ditambahkan ke keranjang!`;
+            
+            document.body.appendChild(toast);
+
+            // Menghapus elemen setelah animasi selesai
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Menambahkan CSS keyframes untuk animasi toast secara dinamis
+        const styleSheet = document.createElement("style");
+        styleSheet.innerText = `
+            @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+            @keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(20px); } }
+        `;
+        document.head.appendChild(styleSheet);
+    </script>
+</body>
+</html>
