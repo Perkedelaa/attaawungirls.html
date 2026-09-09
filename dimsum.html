@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIMSUM.ZONE - Dimsum Legit Ala Gen Z</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --merah: #D32F2F; --merah-tua: #B71C1C; --emas: #F9A825; --emas-terang: #FDD835;
+            --krem: #FFF8E1; --putih: #FFFFFF; --hitam: #212121; --jade: #00897B;
+            --font-head: 'Fredoka One', cursive; --font-body: 'Poppins', sans-serif;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-body); background: var(--krem); color: var(--hitam); overflow-x: hidden; line-height: 1.6; }
+        
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes bounce { 0%, 100% { transform: scale(1) rotate(-2deg); } 50% { transform: scale(1.1) rotate(2deg); } }
+        @keyframes steam { 0% { opacity: 0; transform: translateY(0) scaleX(1); } 50% { opacity: 0.6; } 100% { opacity: 0; transform: translateY(-25px) scaleX(1.8); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.aktif { opacity: 1; transform: translateY(0); }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(255, 248, 225, 0.95); backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--hitam); height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 5%;
+        }
+        .logo { font-family: var(--font-head); font-size: 26px; color: var(--merah); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .logo svg { width: 32px; height: 32px; }
+        .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--hitam); font-weight: 600; font-size: 15px; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--merah); }
+        .btn-nav {
+            background: var(--merah); color: var(--putih); font-weight: 700; font-size: 14px;
+            padding: 10px 24px; border-radius: 50px; border: 2px solid var(--hitam);
+            text-decoration: none; box-shadow: 3px 3px 0 var(--hitam); transition: all 0.2s;
+        }
+        .btn-nav:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--hitam); }
+        .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 5px; }
+        .hamburger span { display: block; width: 26px; height: 3px; background: var(--hitam); margin: 5px 0; border-radius: 2px; transition: 0.3s; }
+        .mobile-menu {
+            display: none; position: fixed; top: 70px; left: 0; right: 0; background: var(--krem);
+            border-bottom: 2px solid var(--hitam); padding: 20px 5%; flex-direction: column; gap: 15px; z-index: 99;
+        }
+        .mobile-menu.aktif { display: flex; }
+        .mobile-menu a { text-decoration: none; color: var(--hitam); font-weight: 600; font-size: 16px; }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh; padding-top: 70px;
+            background: linear-gradient(180deg, #FFEBEE 0%, #FFF8E1 100%);
+            display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(#E0E0E0 1px, transparent 1px); background-size: 30px 30px; opacity: 0.3;
+        }
+        .hero-inner { max-width: 1200px; width: 90%; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; position: relative; z-index: 2; }
+        .hero-text h1 { font-family: var(--font-head); font-size: 64px; line-height: 1; color: var(--merah); text-shadow: 3px 3px 0 var(--hitam); margin-bottom: 20px; }
+        .hero-text h1 span { color: var(--emas); text-shadow: 3px 3px 0 var(--merah-tua); display: block; }
+        .hero-text p { font-size: 16px; color: #424242; margin-bottom: 32px; max-width: 400px; font-weight: 500; }
+        .btn-hero {
+            display: inline-block; background: var(--emas); color: var(--hitam); font-weight: 800;
+            font-size: 18px; padding: 16px 40px; border-radius: 50px; border: 2px solid var(--hitam);
+            text-decoration: none; box-shadow: 4px 4px 0 var(--hitam); transition: all 0.2s; animation: bounce 3s infinite;
+        }
+        .btn-hero:hover { animation: none; transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--hitam); }
+        .hero-visual { position: relative; display: flex; justify-content: center; align-items: center; height: 550px; }
+        .hero-dimsum-main { animation: float 4s ease-in-out infinite; filter: drop-shadow(10px 15px 10px rgba(183, 28, 28, 0.2)); }
+        .sticker {
+            position: absolute; padding: 8px 16px; border-radius: 50px; border: 2px solid var(--hitam);
+            font-family: var(--font-head); font-size: 13px; box-shadow: 3px 3px 0 var(--hitam); z-index: 5;
+        }
+        .s-halal { background: var(--jade); color: white; top: 10%; right: 0%; transform: rotate(5deg); animation: bounce 4s infinite; }
+        .s-fresh { background: var(--emas-terang); color: var(--hitam); bottom: 15%; left: -5%; transform: rotate(-5deg); animation: bounce 4.5s infinite 0.5s; }
+        .hero-pagoda {
+            position: absolute; right: -80px; bottom: 0; opacity: 0.15; z-index: 1; animation: float 6s ease-in-out infinite 1s;
+        }
+
+        /* SECTIONS */
+        .section-container { max-width: 1200px; margin: 0 auto; padding: 80px 5%; text-align: center; }
+        .section-title {
+            font-family: var(--font-head); font-size: 40px; color: var(--merah);
+            margin-bottom: 10px; text-shadow: 2px 2px 0 var(--hitam); position: relative; display: inline-block;
+        }
+        .section-title::after {
+            content: ''; display: block; width: 60%; height: 4px; background: var(--emas);
+            margin: 8px auto 0; border-radius: 2px; box-shadow: 2px 2px 0 var(--hitam);
+        }
+        .section-sub { color: #616161; font-size: 16px; margin-bottom: 50px; font-weight: 500; }
+
+        /* KATEGORI */
+        .kat-scroll { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none; }
+        .kat-scroll::-webkit-scrollbar { display: none; }
+        .kat-card {
+            flex: 0 0 auto; scroll-snap-align: start; background: var(--putih); border: 2px solid var(--hitam);
+            border-radius: 24px; padding: 20px; width: 140px; text-align: center; cursor: pointer;
+            box-shadow: 4px 4px 0 var(--hitam); transition: all 0.3s;
+        }
+        .kat-card:hover { transform: translateY(-8px); box-shadow: 4px 8px 0 var(--hitam); }
+        .kat-card svg { width: 80px; height: 80px; margin-bottom: 10px; filter: drop-shadow(2px 4px 2px rgba(0,0,0,0.1)); }
+        .kat-card p { font-weight: 700; font-size: 14px; }
+
+        /* MENU GRID */
+        .menu-wrap { background: white; border-radius: 40px; max-width: 1300px; margin-left: auto; margin-right: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
+        .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; text-align: left; }
+        .menu-card {
+            background: var(--putih); border: 2px solid var(--hitam); border-radius: 24px; overflow: hidden;
+            box-shadow: 6px 6px 0 var(--hitam); transition: all 0.3s; position: relative; display: flex; flex-direction: column;
+        }
+        .menu-card:hover { transform: translateY(-6px); box-shadow: 6px 10px 0 var(--hitam); }
+        .menu-card:nth-child(even) { transform: translateY(-12px); }
+        .menu-card:nth-child(even):hover { transform: translateY(-18px); }
+        .menu-img-box { height: 240px; display: flex; align-items: center; justify-content: center; border-bottom: 2px solid var(--hitam); position: relative; overflow: hidden; }
+        .menu-img-box svg { width: 180px; height: 180px; transition: transform 0.5s; filter: drop-shadow(4px 6px 4px rgba(0,0,0,0.15)); }
+        .menu-card:hover .menu-img-box svg { transform: scale(1.05) rotate(-1deg); }
+        .steam-container { position: absolute; top: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; }
+        .steam { width: 10px; height: 20px; background: white; border-radius: 50%; opacity: 0; filter: blur(4px); }
+        .steam:nth-child(1) { animation: steam 2s infinite; }
+        .steam:nth-child(2) { animation: steam 2s infinite 0.6s; }
+        .steam:nth-child(3) { animation: steam 2s infinite 1.2s; }
+        .menu-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .menu-body h3 { font-family: var(--font-head); font-size: 20px; margin-bottom: 8px; }
+        .menu-body p { font-size: 13px; color: #757575; margin-bottom: 16px; flex-grow: 1; }
+        .menu-footer { display: flex; justify-content: space-between; align-items: center; }
+        .price-box span { display: block; }
+        .price-old { font-size: 12px; color: #9E9E9E; text-decoration: line-through; }
+        .price-new { font-size: 20px; font-weight: 800; color: var(--merah); }
+        .btn-add {
+            background: var(--hitam); color: var(--putih); font-weight: 700; font-size: 13px;
+            padding: 10px 20px; border-radius: 50px; border: none; cursor: pointer;
+            box-shadow: 3px 3px 0 var(--merah); transition: all 0.2s;
+        }
+        .btn-add:hover { background: var(--merah); transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--hitam); }
+        .badge {
+            position: absolute; top: 15px; right: 15px; font-family: var(--font-head); font-size: 11px;
+            padding: 5px 12px; border-radius: 50px; border: 2px solid var(--hitam);
+            box-shadow: 2px 2px 0 var(--hitam); z-index: 3;
+        }
+        .badge-best { background: var(--emas-terang); color: var(--hitam); transform: rotate(5deg); }
+        .badge-hot { background: var(--merah); color: white; transform: rotate(-3deg); }
+        .badge-new { background: var(--jade); color: white; transform: rotate(4deg); }
+
+        /* PROMO */
+        .promo-card {
+            background: var(--merah); border: 3px solid var(--hitam); border-radius: 30px; padding: 60px 40px;
+            position: relative; overflow: hidden; box-shadow: 8px 8px 0 var(--hitam);
+        }
+        .promo-pattern {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; pointer-events: none;
+            background-image: linear-gradient(30deg, #000 12%, transparent 12.5%, transparent 87%, #000 87.5%, #000), linear-gradient(150deg, #000 12%, transparent 12.5%, transparent 87%, #000 87.5%, #000), linear-gradient(30deg, #000 12%, transparent 12.5%, transparent 87%, #000 87.5%, #000), linear-gradient(150deg, #000 12%, transparent 12.5%, transparent 87%, #000 87.5%, #000), linear-gradient(60deg, #fff 25%, transparent 25.5%, transparent 75%, #fff 75%, #fff), linear-gradient(60deg, #fff 25%, transparent 25.5%, transparent 75%, #fff 75%, #fff);
+            background-size: 40px 70px; background-position: 0 0, 0 0, 20px 35px, 20px 35px, 0 0, 20px 35px;
+        }
+        .promo-label { display: inline-block; background: var(--emas-terang); color: var(--hitam); font-weight: 800; padding: 6px 20px; border-radius: 50px; border: 2px solid var(--hitam); margin-bottom: 16px; position: relative; z-index: 2; }
+        .promo-title { font-family: var(--font-head); font-size: 52px; color: var(--emas-terang); text-shadow: 3px 3px 0 var(--merah-tua); margin-bottom: 12px; position: relative; z-index: 2; }
+        .promo-desc { color: rgba(255,255,255,0.9); font-size: 16px; margin-bottom: 30px; position: relative; z-index: 2; }
+        .btn-promo { display: inline-block; background: var(--emas-terang); color: var(--hitam); font-weight: 800; padding: 14px 36px; border-radius: 50px; border: 2px solid var(--hitam); text-decoration: none; box-shadow: 4px 4px 0 var(--hitam); position: relative; z-index: 2; transition: all 0.2s; }
+        .btn-promo:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--hitam); }
+
+        /* TESTIMONI */
+        .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; text-align: left; }
+        .testi-card { background: var(--putih); border: 2px solid var(--hitam); border-radius: 20px; padding: 24px; box-shadow: 4px 4px 0 var(--hitam); position: relative; transition: transform 0.3s; }
+        .testi-card:nth-child(2) { background: #FFF9C4; transform: rotate(-1deg); }
+        .testi-card:nth-child(3) { background: #B2DFDB; transform: rotate(1deg); }
+        .testi-card:hover { transform: rotate(0) translateY(-5px) !important; }
+        .testi-card::before { content: ''; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 12px; height: 12px; background: var(--hitam); border-radius: 50%; opacity: 0.1; }
+        .stars { display: flex; gap: 4px; margin-bottom: 12px; justify-content: center; }
+        .stars svg { width: 18px; height: 18px; }
+        .testi-text { font-size: 14px; text-align: center; margin-bottom: 16px; font-style: italic; color: #424242; }
+        .testi-profile { display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .testi-img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--hitam); background: #FFCCBC; }
+        .testi-name { font-weight: 700; font-size: 14px; }
+
+        /* FOOTER */
+        .footer { background: var(--merah-tua); color: rgba(255,255,255,0.8); padding: 80px 5% 30px; position: relative; overflow: hidden; }
+        .footer-pagoda { position: absolute; top: -2px; left: 0; width: 100%; opacity: 0.2; pointer-events: none; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; position: relative; z-index: 2; }
+        .footer-brand { font-family: var(--font-head); font-size: 28px; color: var(--emas-terang); margin-bottom: 12px; }
+        .footer-desc { font-size: 14px; line-height: 1.8; max-width: 300px; }
+        .footer-title { font-family: var(--font-head); color: var(--emas-terang); margin-bottom: 16px; font-size: 18px; }
+        .footer-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .footer-list a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; transition: 0.2s; }
+        .footer-list a:hover { color: var(--emas-terang); padding-left: 5px; }
+        .footer-sosial { display: flex; gap: 10px; margin-top: 12px; }
+        .footer-sosial a { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3); transition: 0.2s; }
+        .footer-sosial a:hover { background: var(--emas); border-color: var(--emas); }
+        .footer-sosial a:hover svg * { stroke: var(--hitam); }
+        .footer-bottom { max-width: 1200px; margin: 40px auto 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 13px; color: rgba(255,255,255,0.4); position: relative; z-index: 2; }
+
+        /* TOAST */
+        .toast-box { position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+        .toast { background: var(--hitam); color: white; padding: 14px 24px; border-radius: 12px; font-size: 14px; font-weight: 600; border-left: 4px solid var(--emas-terang); box-shadow: 0 10px 30px rgba(0,0,0,0.3); animation: slideUp 0.4s ease; transition: all 0.3s; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) { .menu-grid, .testi-grid { grid-template-columns: repeat(2, 1fr); } .hero-text h1 { font-size: 50px; } .hero-pagoda { right: -120px; opacity: 0.1; } }
+        @media (max-width: 768px) {
+            .nav-links { display: none; } .hamburger { display: block; }
+            .hero-inner { grid-template-columns: 1fr; text-align: center; gap: 30px; }
+            .hero-text p { margin: 0 auto 30px; } .hero-visual { height: 380px; }
+            .hero-text h1 { font-size: 42px; } .hero-pagoda { display: none; }
+            .s-halal { right: 5%; top: 5%; } .s-fresh { left: 5%; bottom: 10%; }
+            .menu-grid, .testi-grid { grid-template-columns: 1fr; max-width: 400px; margin-left: auto; margin-right: auto; }
+            .menu-card:nth-child(even) { transform: none; } .menu-card:nth-child(even):hover { transform: translateY(-6px); }
+            .promo-title { font-size: 36px; } .footer-inner { grid-template-columns: 1fr; text-align: center; }
+            .footer-desc { margin: 0 auto; } .footer-sosial { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="#" class="logo">
+            <svg viewBox="0 0 40 40" fill="none">
+                <path d="M20 6C12 6 6 12 6 20C6 28 12 34 20 34C28 34 34 28 34 20C34 12 28 6 20 6Z" fill="#D32F2F" stroke="#212121" stroke-width="2"/>
+                <path d="M14 22C14 22 16 28 20 28C24 28 26 22 26 22" stroke="#212121" stroke-width="2" stroke-linecap="round"/>
+                <line x1="20" y1="2" x2="20" y2="6" stroke="#212121" stroke-width="2" stroke-linecap="round"/>
+                <line x1="10" y1="4" x2="12" y2="7" stroke="#212121" stroke-width="2" stroke-linecap="round"/>
+                <line x1="30" y1="4" x2="28" y2="7" stroke="#212121" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            DIMSUM.ZONE
+        </a>
+        <ul class="nav-links">
+            <li><a href="#kategori">Menu</a></li>
+            <li><a href="#tentang">Tentang</a></li>
+            <li><a href="#lokasi">Lokasi</a></li>
+            <li><a href="#pesan" class="btn-nav">Pesan Sekarang</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#kategori">Menu</a><a href="#tentang">Tentang</a><a href="#lokasi">Lokasi</a><a href="#pesan">Pesan Sekarang</a>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero" id="tentang">
+        <svg class="hero-pagoda" width="400" height="600" viewBox="0 0 400 600" fill="none">
+            <path d="M200 40 L150 100 L250 100 Z" fill="#B71C1C" stroke="#212121" stroke-width="2"/>
+            <path d="M130 100 Q200 75 270 100 L255 115 Q200 93 145 115 Z" fill="#880E4F"/>
+            <rect x="165" y="115" width="10" height="60" fill="#5D4037" rx="2"/><rect x="225" y="115" width="10" height="60" fill="#5D4037" rx="2"/>
+            <rect x="145" y="120" width="110" height="50" fill="#FFCDD2" stroke="#212121" stroke-width="1.5" rx="3"/>
+            <path d="M120 175 L70 240 L330 240 L280 175 Z" fill="#B71C1C" stroke="#212121" stroke-width="2"/>
+            <path d="M60 240 Q200 210 340 240 L325 255 Q200 228 75 255 Z" fill="#880E4F"/>
+            <circle cx="60" cy="240" r="6" fill="#FDD835" stroke="#212121" stroke-width="1.5"/><circle cx="340" cy="240" r="6" fill="#FDD835" stroke="#212121" stroke-width="1.5"/>
+            <rect x="90" y="255" width="12" height="80" fill="#5D4037" rx="2"/><rect x="298" y="255" width="12" height="80" fill="#5D4037" rx="2"/>
+            <rect x="75" y="260" width="250" height="70" fill="#FFCDD2" stroke="#212121" stroke-width="1.5" rx="3"/>
+            <rect x="120" y="275" width="35" height="40" fill="#FDD835" stroke="#212121" stroke-width="1" rx="2"/>
+            <line x1="137.5" y1="275" x2="137.5" y2="315" stroke="#212121" stroke-width="0.8"/><line x1="120" y1="295" x2="155" y2="295" stroke="#212121" stroke-width="0.8"/>
+            <rect x="245" y="275" width="35" height="40" fill="#FDD835" stroke="#212121" stroke-width="1" rx="2"/>
+            <line x1="262.5" y1="275" x2="262.5" y2="315" stroke="#212121" stroke-width="0.8"/><line x1="245" y1="295" x2="280" y2="295" stroke="#212121" stroke-width="0.8"/>
+            <path d="M55 330 L0 410 L400 410 L345 330 Z" fill="#B71C1C" stroke="#212121" stroke-width="2"/>
+            <path d="M-10 410 Q200 375 410 410 L395 428 Q200 395 5 428 Z" fill="#880E4F"/>
+            <circle cx="-10" cy="410" r="7" fill="#FDD835" stroke="#212121" stroke-width="1.5"/><circle cx="410" cy="410" r="7" fill="#FDD835" stroke="#212121" stroke-width="1.5"/>
+            <rect x="30" y="428" width="14" height="100" fill="#5D4037" rx="2"/><rect x="356" y="428" width="14" height="100" fill="#5D4037" rx="2"/>
+            <rect x="15" y="433" width="370" height="90" fill="#FFCDD2" stroke="#212121" stroke-width="1.5" rx="3"/>
+            <rect x="165" y="450" width="70" height="73" fill="#5D4037" stroke="#212121" stroke-width="1.5" rx="35 35 0 0"/>
+            <circle cx="220" cy="490" r="5" fill="#FDD835" stroke="#212121" stroke-width="1"/>
+            <rect x="140" y="523" width="120" height="10" fill="#5D4037" stroke="#212121" stroke-width="1" rx="2"/>
+            <rect x="115" y="533" width="170" height="10" fill="#5D4037" stroke="#212121" stroke-width="1" rx="2"/>
+            <rect x="90" y="543" width="220" height="10" fill="#5D4037" stroke="#212121" stroke-width="1" rx="2"/>
+        </svg>
+
+        <div class="hero-inner">
+            <div class="hero-text">
+                <h1>DIMSUM<br><span>LEGIT BANGET!</span></h1>
+                <p>Kulit tipis, isian melimpah, dan uapnya masih mengepul langsung dari kukusan. Dibuat fresh setiap hari, cocok buat cemilan ngumpul bareng.</p>
+                <a href="#menu" class="btn-hero">Lihat Menu</a>
+            </div>
+            <div class="hero-visual">
+                <div class="sticker s-halal">100% HALAL</div>
+                <div class="sticker s-fresh">FRESH DAILY</div>
+                
+                <!-- HERO: REALISTIC BAMBOO STEAMER & HAKAU -->
+                <svg class="hero-dimsum-main" width="350" height="400" viewBox="0 0 350 400" fill="none">
+                    <defs>
+                        <!-- Gradasi Bambu Realistis -->
+                        <linearGradient id="bambooBase" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#EFEBE9"/><stop offset="50%" stop-color="#D7CCC8"/><stop offset="100%" stop-color="#BCAAA4"/>
+                        </linearGradient>
+                        <linearGradient id="bambooLid" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#F5F5F5"/><stop offset="40%" stop-color="#EFEBE9"/><stop offset="100%" stop-color="#D7CCC8"/>
+                        </linearGradient>
+                        <!-- Gradasi Kulit Dimsum Transparan -->
+                        <radialGradient id="skinHakau" cx="50%" cy="40%" r="50%">
+                            <stop offset="0%" stop-color="#FFECB3" stop-opacity="0.8"/><stop offset="100%" stop-color="#FFCC80" stop-opacity="0.9"/>
+                        </radialGradient>
+                        <!-- Gradasi Udang -->
+                        <linearGradient id="shrimpGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#FF8A65"/><stop offset="100%" stop-color="#E64A19"/>
+                        </linearGradient>
+                    </defs>
+
+                    <!-- KUKUSAN BAWAH -->
+                    <ellipse cx="175" cy="340" rx="140" ry="30" fill="#A1887F"/>
+                    <path d="M35 210 C35 300 80 340 175 340 C270 340 315 300 315 210 L315 230 C315 320 270 360 175 360 C80 360 35 320 35 230 Z" fill="url(#bambooBase)" stroke="#5D4037" stroke-width="3"/>
+                    <!-- Serat Bambu Kukusan Bawah -->
+                    <path d="M60 250 Q175 240 290 250" stroke="#BCAAA4" stroke-width="1.5" fill="none"/>
+                    <path d="M50 280 Q175 270 300 280" stroke="#BCAAA4" stroke-width="1.5" fill="none"/>
+                    <path d="M45 310 Q175 300 305 310" stroke="#BCAAA4" stroke-width="1.5" fill="none"/>
+                    <!-- Anyaman Bambu Vertikal -->
+                    <line x1="100" y1="215" x2="95" y2="345" stroke="#BCAAA4" stroke-width="1" opacity="0.5"/>
+                    <line x1="150" y1="212" x2="148" y2="350" stroke="#BCAAA4" stroke-width="1" opacity="0.5"/>
+                    <line x1="200" y1="212" x2="202" y2="350" stroke="#BCAAA4" stroke-width="1" opacity="0.5"/>
+                    <line x1="250" y1="215" x2="255" y2="345" stroke="#BCAAA4" stroke-width="1" opacity="0.5"/>
+                    <!-- Lingkaran Anyaman -->
+                    <circle cx="175" cy="220" r="100" stroke="#BCAAA4" stroke-width="1" fill="none" opacity="0.3"/>
+
+                    <!-- TUTUP KUKUSAN -->
+                    <path d="M35 210 C35 210 60 185 175 185 C290 185 315 210 315 210 L300 160 C300 160 275 120 175 120 C75 120 50 160 50 160 Z" fill="url(#bambooLid)" stroke="#5D4037" stroke-width="3"/>
+                    <!-- Serat Tutup -->
+                    <path d="M70 180 Q175 170 280 180" stroke="#D7CCC8" stroke-width="1.5" fill="none"/>
+                    <path d="M65 165 Q175 155 285 165" stroke="#D7CCC8" stroke-width="1.5" fill="none"/>
+                    <path d="M60 150 Q175 140 290 150" stroke="#D7CCC8" stroke-width="1.5" fill="none"/>
+                    <!-- Gagang Tutup -->
+                    <ellipse cx="175" cy="110" rx="40" ry="15" fill="#D7CCC8" stroke="#5D4037" stroke-width="3"/>
+                    <path d="M155 110 C155 80 195 80 195 110" stroke="#5D4037" stroke-width="4" fill="#EFEBE9"/>
+
+                    <!-- ISI: HAKAU REALISTIS -->
+                    <!-- Hakau 1 (Kiri) -->
+                    <path d="M80 200 C70 175 90 160 105 165 C120 170 115 195 105 200 C95 205 85 205 80 200Z" fill="url(#skinHakau)" stroke="#F57F17" stroke-width="1.5"/>
+                    <!-- Lipatan Kulit Hakau 1 -->
+                    <path d="M80 200 Q90 190 105 200" fill="none" stroke="#FFB300" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M85 195 Q95 185 110 195" fill="none" stroke="#FFB300" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+                    <!-- Isi Udang Hakau 1 -->
+                    <path d="M88 195 Q92 185 100 190" fill="url(#shrimpGrad)" stroke="#D84315" stroke-width="0.5" opacity="0.9"/>
+
+                    <!-- Hakau 2 (Tengah) -->
+                    <path d="M140 195 C130 165 155 150 175 155 C195 160 190 190 180 195 C170 200 150 200 140 195Z" fill="url(#skinHakau)" stroke="#F57F17" stroke-width="1.5"/>
+                    <!-- Lipatan Kulit Hakau 2 -->
+                    <path d="M140 195 Q160 180 180 195" fill="none" stroke="#FFB300" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M148 188 Q160 175 178 188" fill="none" stroke="#FFB300" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+                    <!-- Isi Udang Hakau 2 -->
+                    <path d="M150 190 Q158 178 170 185" fill="url(#shrimpGrad)" stroke="#D84315" stroke-width="0.5" opacity="0.9"/>
+                    <!-- Kilau Udang -->
+                    <path d="M155 183 Q158 180 162 183" stroke="white" stroke-width="1" fill="none" opacity="0.6" stroke-linecap="round"/>
+
+                    <!-- Hakau 3 (Kanan) -->
+                    <path d="M220 200 C215 170 235 160 250 165 C265 170 260 195 250 200 C240 205 225 205 220 200Z" fill="url(#skinHakau)" stroke="#F57F17" stroke-width="1.5"/>
+                    <!-- Lipatan Kulit Hakau 3 -->
+                    <path d="M220 200 Q235 185 250 200" fill="none" stroke="#FFB300" stroke-width="1.5" stroke-linecap="round"/>
+                    <!-- Isi Udang Hakau 3 -->
+                    <path d="M228 195 Q235 182 245 190" fill="url(#shrimpGrad)" stroke="#D84315" stroke-width="0.5" opacity="0.9"/>
+
+                    <!-- UAP REALISTIS BERGERAK -->
+                    <path d="M130 90 C125 60 140 50 135 20" stroke="#E0E0E0" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.5">
+                        <animate attributeName="d" values="M130 90 C125 60 140 50 135 20;M130 90 C120 50 145 40 135 5;M130 90 C125 60 140 50 135 20" dur="3s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.5;0.1;0.5" dur="3s" repeatCount="indefinite"/>
+                    </path>
+                    <path d="M175 85 C170 55 185 45 180 15" stroke="#E0E0E0" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.6">
+                        <animate attributeName="d" values="M175 85 C170 55 185 45 180 15;M175 85 C165 45 190 35 180 0;M175 85 C170 55 185 45 180 15" dur="2.5s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.6;0.1;0.6" dur="2.5s" repeatCount="indefinite"/>
+                    </path>
+                    <path d="M220 90 C215 60 230 50 225 20" stroke="#E0E0E0" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.4">
+                        <animate attributeName="d" values="M220 90 C215 60 230 50 225 20;M220 90 C210 50 235 40 225 5;M220 90 C215 60 230 50 225 20" dur="3.5s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.4;0.05;0.4" dur="3.5s" repeatCount="indefinite"/>
+                    </path>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- KATEGORI -->
+    <section class="section-container reveal" id="kategori">
+        <h2 class="section-title">Pilih Kategori</h2>
+        <p class="section-sub">Temukan varian dimsum favoritmu di sini</p>
+        <div class="kat-scroll">
+            <div class="kat-card">
+                <!-- Realistic Hakau Mini -->
+                <svg viewBox="0 0 100 100" fill="none">
+                    <defs><radialGradient id="kSkin" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="#FFECB3" stop-opacity="0.9"/><stop offset="100%" stop-color="#FFCC80"/></radialGradient></defs>
+                    <path d="M25 60 C15 35 45 20 55 25 C65 30 60 55 50 60 C40 65 30 65 25 60Z" fill="url(#kSkin)" stroke="#F57F17" stroke-width="2"/>
+                    <path d="M25 60 Q40 45 50 60" fill="none" stroke="#FFB300" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M30 55 Q40 42 48 55" fill="none" stroke="#FFB300" stroke-width="1" opacity="0.5"/>
+                    <path d="M33 52 Q38 44 45 50" fill="#FF8A65" stroke="#E64A19" stroke-width="0.5" opacity="0.8"/>
+                </svg>
+                <p>Hakau</p>
+            </div>
+            <div class="kat-card">
+                <!-- Realistic Siomay Mini -->
+                <svg viewBox="0 0 100 100" fill="none">
+                    <defs><linearGradient id="sWonton" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFF9C4"/><stop offset="100%" stop-color="#FDD835"/></linearGradient></defs>
+                    <path d="M30 70 C25 35 50 20 50 20 C50 20 75 35 70 70" fill="url(#sWonton)" stroke="#F9A825" stroke-width="2"/>
+                    <path d="M35 65 C35 45 50 30 50 30 C50 30 65 45 65 65" fill="#FFAB91" stroke="#E64A19" stroke-width="0.5"/>
+                    <path d="M50 70 L50 25" stroke="#F9A825" stroke-width="1.5" opacity="0.4"/>
+                </svg>
+                <p>Siomay</p>
+            </div>
+            <div class="kat-card">
+                <!-- Realistic Lumpia Mini -->
+                <svg viewBox="0 0 100 100" fill="none">
+                    <defs><linearGradient id="lSkin" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFF3E0"/><stop offset="100%" stop-color="#FFB74D"/></linearGradient></defs>
+                    <rect x="15" y="40" width="70" height="28" rx="14" fill="url(#lSkin)" stroke="#E65100" stroke-width="2" transform="rotate(-8 50 54)"/>
+                    <path d="M25 50 L75 50" stroke="#E65100" stroke-width="0.5" opacity="0.3" transform="rotate(-8 50 50)"/>
+                    <path d="M30 58 L70 58" stroke="#E65100" stroke-width="0.5" opacity="0.3" transform="rotate(-8 50 58)"/>
+                    <path d="M30 52 Q50 46 70 52" fill="#FFCC80" stroke="none" transform="rotate(-8 50 52)"/>
+                    <!-- Kilau Minyak -->
+                    <path d="M40 44 Q45 42 50 44" stroke="white" stroke-width="1" fill="none" opacity="0.7" stroke-linecap="round" transform="rotate(-8 45 43)"/>
+                </svg>
+                <p>Lumpia</p>
+            </div>
+            <div class="kat-card">
+                <!-- Realistic Bola Udang Mini -->
+                <svg viewBox="0 0 100 100" fill="none">
+                    <defs><radialGradient id="bUdang" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#FFCC80"/><stop offset="100%" stop-color="#E65100"/></radialGradient></defs>
+                    <circle cx="50" cy="55" r="28" fill="url(#bUdang)" stroke="#BF360C" stroke-width="2"/>
+                    <!-- Tepung Roti Crispy -->
+                    <circle cx="35" cy="42" r="2" fill="#FFE0B2" opacity="0.6"/><circle cx="60" cy="38" r="1.5" fill="#FFE0B2" opacity="0.6"/>
+                    <circle cx="42" cy="65" r="1.5" fill="#FFE0B2" opacity="0.6"/><circle cx="65" cy="60" r="2" fill="#FFE0B2" opacity="0.6"/>
+                    <circle cx="50" cy="48" r="2" fill="#FFE0B2" opacity="0.6"/>
+                    <!-- Kilau Minyak -->
+                    <path d="M38 42 Q42 38 48 42" stroke="white" stroke-width="1.5" fill="none" opacity="0.8" stroke-linecap="round"/>
+                </svg>
+                <p>Bola Udang</p>
+            </div>
+            <div class="kat-card">
+                <!-- Realistic Pangsit Mini -->
+                <svg viewBox="0 0 100 100" fill="none">
+                    <path d="M20 70 L50 30 L80 70 Z" fill="#FFF9C4" stroke="#F9A825" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M30 65 L50 40 L70 65" fill="#FFCC80" stroke="none"/>
+                    <path d="M20 70 L50 30 L80 70" fill="none" stroke="#F9A825" stroke-width="1" stroke-dasharray="2 2"/>
+                    <path d="M40 55 Q50 50 60 55" fill="#FFAB91" stroke="#E64A19" stroke-width="0.5"/>
+                </svg>
+                <p>Pangsit</p>
+            </div>
+            <div class="kat-card">
+                <!-- Realistic Bakso Mini -->
+                <svg viewBox="0 0 100 100" fill="none">
+                    <defs><radialGradient id="bBakso" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#FFCCBC"/><stop offset="100%" stop-color="#D84315"/></radialGradient></defs>
+                    <circle cx="50" cy="55" r="28" fill="url(#bBakso)" stroke="#BF360C" stroke-width="2"/>
+                    <path d="M35 48 Q50 38 65 48" fill="white" opacity="0.2"/>
+                    <circle cx="40" cy="45" r="1.5" fill="white" opacity="0.6"/>
+                </svg>
+                <p>Bakso</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU POPULER -->
+    <section class="menu-wrap reveal" id="menu">
+        <div class="section-container" style="padding-bottom: 40px;">
+            <h2 class="section-title">Menu Populer</h2>
+            <p class="section-sub">Paling laris dan banyak dipesen anak muda</p>
+        </div>
+        <div style="padding: 0 5% 80px 5%; max-width: 1200px; margin: 0 auto;">
+            <div class="menu-grid">
+                <!-- Produk 1: Hakau -->
+                <div class="menu-card">
+                    <span class="badge badge-best">BEST SELLER</span>
+                    <div class="menu-img-box" style="background: #FFF8E1;">
+                        <div class="steam-container"><div class="steam"></div><div class="steam"></div><div class="steam"></div></div>
+                        <svg viewBox="0 0 200 200" fill="none">
+                            <defs><radialGradient id="mSkin" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="#FFECB3" stop-opacity="0.9"/><stop offset="100%" stop-color="#FFCC80"/></radialGradient></defs>
+                            <ellipse cx="100" cy="160" rx="80" ry="20" fill="#D7CCC8" opacity="0.5"/>
+                            <path d="M40 140 C20 100 60 70 80 80 C100 90 95 130 80 140 C65 150 50 150 40 140Z" fill="url(#mSkin)" stroke="#F57F17" stroke-width="2"/>
+                            <path d="M40 140 Q65 115 80 140" fill="none" stroke="#FFB300" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M50 130 Q65 110 78 130" fill="none" stroke="#FFB300" stroke-width="1" opacity="0.6"/>
+                            <path d="M55 125 Q65 112 75 122" fill="#FF8A65" stroke="#E64A19" stroke-width="0.5"/>
+                            <path d="M60 120 Q65 114 72 118" stroke="white" stroke-width="1" fill="none" opacity="0.7" stroke-linecap="round"/>
+                            
+                            <path d="M90 135 C80 100 110 75 130 85 C150 95 145 130 130 135 C115 140 100 140 90 135Z" fill="url(#mSkin)" stroke="#F57F17" stroke-width="2"/>
+                            <path d="M90 135 Q115 110 130 135" fill="none" stroke="#FFB300" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M100 125 Q115 105 128 125" fill="none" stroke="#FFB300" stroke-width="1" opacity="0.6"/>
+                            <path d="M108 118 Q115 108 122 115" fill="#FF8A65" stroke="#E64A19" stroke-width="0.5"/>
+                            <path d="M110 115 Q115 110 120 114" stroke="white" stroke-width="1" fill="none" opacity="0.7" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="menu-body">
+                        <h3>Hakau Udang Premium</h3>
+                        <p>Kulit transparan tipis berisi udang segar utuh, tekstur kenyal dan juicy saat digigit.</p>
+                        <div class="menu-footer">
+                            <div class="price-box"><span class="price-old">Rp 28.000</span><span class="price-new">Rp 22.000</span></div>
+                            <button class="btn-add" data-nama="Hakau Udang Premium">Tambah</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produk 2: Siomay -->
+                <div class="menu-card">
+                    <span class="badge badge-hot">HOT</span>
+                    <div class="menu-img-box" style="background: #FFFDE7;">
+                        <div class="steam-container"><div class="steam"></div><div class="steam"></div><div class="steam"></div></div>
+                        <svg viewBox="0 0 200 200" fill="none">
+                            <defs><linearGradient id="mWonton" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFF9C4"/><stop offset="100%" stop-color="#FDD835"/></linearGradient></defs>
+                            <ellipse cx="100" cy="160" rx="80" ry="20" fill="#D7CCC8" opacity="0.5"/>
+                            <path d="M60 140 C50 80 100 50 100 50 C100 50 150 80 140 140" fill="url(#mWonton)" stroke="#F9A825" stroke-width="2.5"/>
+                            <path d="M70 130 C70 90 100 65 100 65 C100 65 130 90 130 130" fill="#FFAB91" stroke="#E64A19" stroke-width="0.5"/>
+                            <path d="M100 140 L100 55" stroke="#F9A825" stroke-width="2" opacity="0.4"/>
+                            <!-- Keriput Kulit Wonton Realistis -->
+                            <path d="M65 120 Q75 115 80 120" fill="none" stroke="#FBC02D" stroke-width="1" opacity="0.6"/>
+                            <path d="M120 120 Q125 115 135 120" fill="none" stroke="#FBC02D" stroke-width="1" opacity="0.6"/>
+                            <!-- Kilau Daging Ikan -->
+                            <path d="M80 100 Q85 95 90 100" stroke="white" stroke-width="1" fill="none" opacity="0.6" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="menu-body">
+                        <h3>Siomay Ikan Tenggiri</h3>
+                        <p>Daging ikan tenggiri pilihan dibungkus kulit wonton, gurih dan lembut di mulut.</p>
+                        <div class="menu-footer">
+                            <div class="price-box"><span class="price-old">Rp 25.000</span><span class="price-new">Rp 18.000</span></div>
+                            <button class="btn-add" data-nama="Siomay Ikan Tenggiri">Tambah</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produk 3: Lumpia -->
+                <div class="menu-card">
+                    <div class="menu-img-box" style="background: #FFF3E0;">
+                        <svg viewBox="0 0 200 200" fill="none">
+                            <defs><linearGradient id="mLumpia" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFF3E0"/><stop offset="100%" stop-color="#FFB74D"/></linearGradient></defs>
+                            <ellipse cx="100" cy="160" rx="80" ry="20" fill="#D7CCC8" opacity="0.5"/>
+                            <rect x="25" y="80" width="150" height="55" rx="27.5" fill="url(#mLumpia)" stroke="#E65100" stroke-width="2.5" transform="rotate(-5 100 107)"/>
+                            <path d="M40 95 L160 95" stroke="#E65100" stroke-width="0.5" opacity="0.3" transform="rotate(-5 100 95)"/>
+                            <path d="M45 115 L155 115" stroke="#E65100" stroke-width="0.5" opacity="0.3" transform="rotate(-5 100 115)"/>
+                            <path d="M45 100 Q100 85 155 100" fill="#FFCC80" stroke="none" transform="rotate(-5 100 100)"/>
+                            <!-- Isi Udang Keju -->
+                            <path d="M60 100 Q80 88 100 100 Q120 88 140 100" fill="#FFAB91" stroke="#E64A19" stroke-width="0.5" transform="rotate(-5 100 100)"/>
+                            <path d="M70 96 Q90 88 110 96" stroke="#FDD835" stroke-width="2" fill="none" opacity="0.8" stroke-linecap="round" transform="rotate(-5 90 92)"/>
+                            <!-- Kilau Minyak Goreng -->
+                            <path d="M60 88 Q70 82 80 88" stroke="white" stroke-width="2" fill="none" opacity="0.8" stroke-linecap="round" transform="rotate(-5 70 85)"/>
+                            <path d="M120 85 Q130 80 140 85" stroke="white" stroke-width="1.5" fill="none" opacity="0.6" stroke-linecap="round" transform="rotate(-5 130 82)"/>
+                        </svg>
+                    </div>
+                    <div class="menu-body">
+                        <h3>Lumpia Udang Keju</h3>
+                        <p>Kulit renyah berisi udang dan lelehan keju mozzarella di dalamnya. Gurih!</p>
+                        <div class="menu-footer">
+                            <div class="price-box"><span class="price-old">Rp 24.000</span><span class="price-new">Rp 20.000</span></div>
+                            <button class="btn-add" data-nama="Lumpia Udang Keju">Tambah</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produk 4: Bola Udang -->
+                <div class="menu-card">
+                    <span class="badge badge-new">NEW</span>
+                    <div class="menu-img-box" style="background: #FFF8E1;">
+                        <svg viewBox="0 0 200 200" fill="none">
+                            <defs><radialGradient id="mBola" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#FFCC80"/><stop offset="100%" stop-color="#E65100"/></radialGradient></defs>
+                            <ellipse cx="100" cy="160" rx="80" ry="20" fill="#D7CCC8" opacity="0.5"/>
+                            <circle cx="70" cy="110" r="35" fill="url(#mBola)" stroke="#BF360C" stroke-width="2.5"/>
+                            <circle cx="135" cy="105" r="30" fill="url(#mBola)" stroke="#BF360C" stroke-width="2.5"/>
+                            <!-- Tepung Roti Detail -->
+                            <circle cx="55" cy="95" r="2.5" fill="#FFE0B2" opacity="0.7"/><circle cx="85" cy="100" r="2" fill="#FFE0B2" opacity="0.7"/>
+                            <circle cx="60" cy="120" r="2" fill="#FFE0B2" opacity="0.7"/><circle cx="80" cy="125" r="2.5" fill="#FFE0B2" opacity="0.7"/>
+                            <circle cx="125" cy="90" r="2" fill="#FFE0B2" opacity="0.7"/><circle cx="145" cy="95" r="2.5" fill="#FFE0B2" opacity="0.7"/>
+                            <circle cx="130" cy="115" r="2" fill="#FFE0B2" opacity="0.7"/>
+                            <!-- Kilau Minyak -->
+                            <path d="M55 90 Q65 82 75 90" stroke="white" stroke-width="2.5" fill="none" opacity="0.8" stroke-linecap="round"/>
+                            <path d="M120 85 Q128 78 136 85" stroke="white" stroke-width="2" fill="none" opacity="0.7" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="menu-body">
+                        <h3>Bola Udang Emas</h3>
+                        <p>Bola udang goreng crispy berlapis tepung roti kuning keemasan. Renyah di luar.</p>
+                        <div class="menu-footer">
+                            <div class="price-box"><span class="price-old">Rp 26.000</span><span class="price-new">Rp 20.000</span></div>
+                            <button class="btn-add" data-nama="Bola Udang Emas">Tambah</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produk 5: Pangsit Goreng -->
+                <div class="menu-card">
+                    <div class="menu-img-box" style="background: #FFFDE7;">
+                        <svg viewBox="0 0 200 200" fill="none">
+                            <ellipse cx="100" cy="160" rx="80" ry="20" fill="#D7CCC8" opacity="0.5"/>
+                            <path d="M40 140 L100 60 L160 140 Z" fill="#FFF9C4" stroke="#F9A825" stroke-width="2.5" stroke-linejoin="round"/>
+                            <path d="M55 135 L100 75 L145 135" fill="#FFCC80" stroke="none"/>
+                            <path d="M40 140 L100 60 L160 140" fill="none" stroke="#FBC02D" stroke-width="1" stroke-dasharray="3 3"/>
+                            <!-- Isi Daging -->
+                            <path d="M75 110 Q100 95 125 110" fill="#FFAB91" stroke="#E64A19" stroke-width="0.5"/>
+                            <!-- Lipatan Kulit Tepi -->
+                            <path d="M50 130 L60 125" stroke="#F9A825" stroke-width="1.5" opacity="0.6"/>
+                            <path d="M150 130 L140 125" stroke="#F9A825" stroke-width="1.5" opacity="0.6"/>
+                            <!-- Kilau Goreng -->
+                            <path d="M80 80 Q90 72 100 80" stroke="white" stroke-width="2" fill="none" opacity="0.8" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="menu-body">
+                        <h3>Pangsit Goreng Spesial</h3>
+                        <p>Pangsit renyah berisi daging ayam dan bawang putih. Garing di luar lembut di dalam.</p>
+                        <div class="menu-footer">
+                            <div class="price-box"><span class="price-old">Rp 20.000</span><span class="price-new">Rp 15.000</span></div>
+                            <button class="btn-add" data-nama="Pangsit Goreng Spesial">Tambah</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produk 6: Bakso Kuah -->
+                <div class="menu-card">
+                    <span class="badge badge-hot">HOT</span>
+                    <div class="menu-img-box" style="background: #FCE4EC;">
+                        <div class="steam-container"><div class="steam"></div><div class="steam"></div><div class="steam"></div></div>
+                        <svg viewBox="0 0 200 200" fill="none">
+                            <defs>
+                                <radialGradient id="mBak" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#FFCCBC"/><stop offset="100%" stop-color="#D84315"/></radialGradient>
+                                <linearGradient id="mKuah" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFCDD2" stop-opacity="0.6"/><stop offset="100%" stop-color="#EF9A9A" stop-opacity="0.8"/></linearGradient>
+                            </defs>
+                            <!-- Mangkuk -->
+                            <path d="M40 110 C40 160 65 180 100 180 C135 180 160 160 160 110 L160 120 C160 170 135 190 100 190 C65 190 40 170 40 120 Z" fill="#D7CCC8" stroke="#5D4037" stroke-width="2.5"/>
+                            <ellipse cx="100" cy="110" rx="60" ry="18" fill="#EFEBE9" stroke="#5D4037" stroke-width="2.5"/>
+                            <!-- Kuah -->
+                            <ellipse cx="100" cy="110" rx="50" ry="13" fill="url(#mKuah)"/>
+                            <!-- Bakso 1 -->
+                            <circle cx="80" cy="105" r="22" fill="url(#mBak)" stroke="#BF360C" stroke-width="2"/>
+                            <path d="M68 95 Q80 85 92 95" fill="white" opacity="0.2"/>
+                            <path d="M72 92 Q78 86 84 92" stroke="white" stroke-width="1.5" fill="none" opacity="0.7" stroke-linecap="round"/>
+                            <!-- Bakso 2 -->
+                            <circle cx="120" cy="100" r="18" fill="url(#mBak)" stroke="#BF360C" stroke-width="2"/>
+                            <path d="M110 92 Q120 84 130 92" fill="white" opacity="0.2"/>
+                            <path d="M113 90 Q118 85 123 90" stroke="white" stroke-width="1.5" fill="none" opacity="0.7" stroke-linecap="round"/>
+                            <!-- Daun Bawang -->
+                            <path d="M55 108 Q60 98 65 108" stroke="#2E7D32" stroke-width="2" fill="none" stroke-linecap="round"/>
+                            <path d="M135 105 Q140 95 145 105" stroke="#2E7D32" stroke-width="2" fill="none" stroke-linecap="round"/>
+                            <!-- Minyak/Bawang Goreng -->
+                            <circle cx="90" cy="115" r="1.5" fill="#F57F17" opacity="0.8"/>
+                            <circle cx="110" cy="118" r="1" fill="#F57F17" opacity="0.8"/>
+                        </svg>
+                    </div>
+                    <div class="menu-body">
+                        <h3>Bakso Urat Kuah</h3>
+                        <p>Bakso urat kenyal berkuah kaldu sapi gurih dengan taburan daun bawang segar.</p>
+                        <div class="menu-footer">
+                            <div class="price-box"><span class="price-old">Rp 22.000</span><span class="price-new">Rp 17.000</span></div>
+                            <button class="btn-add" data-nama="Bakso Urat Kuah">Tambah</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROMO -->
+    <section class="section-container reveal" id="pesan" style="padding-top: 80px; padding-bottom: 80px;">
+        <div class="promo-card">
+            <div class="promo-pattern"></div>
+            <span class="promo-label">PROMO SPESIAL</span>
+            <h2 class="promo-title">BELI 5 GRATIS 1</h2>
+            <p class="promo-desc">Ambil 5 menu dimsum apapun, kamu dapat 1 menu gratis. Berlaku untuk makan di tempat dan takeaway.</p>
+            <a href="#" class="btn-promo" id="btnPromo">Klaim Promo Sekarang</a>
+        </div>
+    </section>
+
+    <!-- TESTIMONI -->
+    <section class="section-container reveal">
+        <h2 class="section-title">Kata Mereka</h2>
+        <p class="section-sub">Review jujur dari pelanggan yang udah nyobain</p>
+        <div class="testi-grid">
+            <div class="testi-card">
+                <div class="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#FDD835" stroke="#212121" stroke-width="1.5"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#FDD835" stroke="#212121" stroke-width="1.5"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#FDD835" stroke="#212121" stroke-width="1.5"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#FDD835" stroke="#212121" stroke-width="1.5"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#FDD835" stroke="#212121" stroke-width="1.5"/></svg></div>
+                <p class="testi-text">"Hakau-nya juara banget, kulitnya tipis banget dan udangnya berasa besar. Bakal balik lagi buat suren."</p>
+                <div class="testi-profile"><img src="https://picsum.photos/seed/rina-girl/100/100.jpg" alt="Rina" class="testi-img"><span class="testi-name">Rina Aulia</span></div>
+            </div>
+            <div class="testi-card">
+                <div class="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#FDD835" stroke="#212121" stroke-width="1.5"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#FDD835" stroke="#212121" stroke-width="1.5"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#FDD835" stroke="#212121" stroke-width="1.5"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#FDD835" stroke="#212121" stroke-width="1.5"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#FDD835" stroke="#212121" stroke-width="1.5"/></svg></div>
+                <p class="testi-text">"Tempatnya aesthetic banget, cocok buat foto-foto. Dimsumnya enak, harganya ramah di kantong mahasiswa."</p>
+                <div class="testi-profile"><img src="https://picsum.photos/seed/budi-boy/100/100.jpg" alt="Budi" class="testi-img"><span class="testi-name">Budi Pratama</span></div>
+            </div>
+            <div class="testi-card">
+                <div class="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#FDD835" stroke="#212121" stroke-width="1.5"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#FDD835" stroke="#212121" stroke-width="1.5"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#FDD835" stroke="#212121" stroke-width="1.5"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#FDD835" stroke="#212121" stroke-width="1.5"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#FDD835" stroke="#212121" stroke-width="1.5"/></svg></div>
+                <p class="testi-text">"Udah langganan sejak bulan lalu. Lumpia udang kejunya endes parah, anak-anak juga suka semua menunya."</p>
+                <div class="testi-profile"><img src="https://picsum.photos/seed/sari-woman/100/100.jpg" alt="Sari" class="testi-img"><span class="testi-name">Sari Dewi</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer" id="lokasi">
+        <svg class="footer-pagoda" viewBox="0 0 1440 60" preserveAspectRatio="none">
+            <path d="M0,60 L0,40 Q20,10 40,40 Q60,10 80,40 L80,60 Z" fill="#7F1D1D"/><path d="M120,60 L120,35 Q150,5 180,35 L180,60 Z" fill="#7F1D1D"/><path d="M240,60 L240,38 Q270,8 300,38 Q330,8 360,38 L360,60 Z" fill="#7F1D1D"/><path d="M420,60 L420,30 Q460,0 500,30 L500,60 Z" fill="#7F1D1D"/><path d="M560,60 L560,38 Q590,8 620,38 Q650,8 680,38 Q710,8 740,38 L740,60 Z" fill="#7F1D1D"/><path d="M800,60 L800,28 Q840,0 880,28 L880,60 Z" fill="#7F1D1D"/><path d="M940,60 L940,35 Q970,5 1000,35 L1000,60 Z" fill="#7F1D1D"/><path d="M1060,60 L1060,38 Q1090,8 1120,38 Q1150,8 1180,38 Q1210,8 1240,38 L1240,60 Z" fill="#7F1D1D"/><path d="M1300,60 L1300,32 Q1340,0 1380,32 L1380,60 Z" fill="#7F1D1D"/>
+        </svg>
+        <div class="footer-inner">
+            <div><div class="footer-brand">DIMSUM.ZONE</div><p class="footer-desc">Dimsum legiterbarik di kota. Dibuat fresh setiap hari dengan bahan-bahan pilihan, langsung dari kukusan ke meja kamu.</p></div>
+            <div><h4 class="footer-title">Navigasi</h4><ul class="footer-list"><li><a href="#kategori">Menu Kami</a></li><li><a href="#tentang">Tentang Kami</a></li><li><a href="#pesan">Cara Pemesanan</a></li><li><a href="#lokasi">Lokasi</a></li></ul></div>
+            <div>
+                <h4 class="footer-title">Hubungi Kami</h4>
+                <ul class="footer-list"><li>Jl. Dimsum Raya No. 88</li><li>0812-3456-7890</li><li>halo@dimsumzone.id</li></ul>
+                <div class="footer-sosial">
+                    <a href="#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg></a>
+                    <a href="#" aria-label="Tiktok"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></a>
+                    <a href="#" aria-label="WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></a>
+                </div>
+            </div> 
+        </div>
+        <div class="footer-bottom">2025 DIMSUM.ZONE. Semua hak dilindungi.</div>
+    </footer>
+
+    <div class="toast-box" id="toastBox"></div>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('aktif');
+            mobileMenu.classList.toggle('aktif');
+            const spans = hamburger.querySelectorAll('span');
+            if(mobileMenu.classList.contains('aktif')) { spans[0].style.transform = 'translateY(8px) rotate(45deg)'; spans[1].style.opacity = '0'; spans[2].style.transform = 'translateY(-8px) rotate(-45deg)'; } 
+            else { spans[0].style.transform = 'none'; spans[1].style.opacity = '1'; spans[2].style.transform = 'none'; }
+        });
+        mobileMenu.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.remove('aktif'); const spans = hamburger.querySelectorAll('span'); spans[0].style.transform = 'none'; spans[1].style.opacity = '1'; spans[2].style.transform = 'none'; }); });
+
+        const revealEls = document.querySelectorAll('.reveal');
+        const cekReveal = () => { revealEls.forEach(el => { if(el.getBoundingClientRect().top < window.innerHeight * 0.85) { el.classList.add('aktif'); } }); };
+        window.addEventListener('load', cekReveal); window.addEventListener('scroll', cekReveal);
+
+        const toastBox = document.getElementById('toastBox');
+        function tampilToast(pesan) { const toast = document.createElement('div'); toast.className = 'toast'; toast.textContent = pesan; toastBox.appendChild(toast); setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(10px)'; setTimeout(() => toast.remove(), 300); }, 2500); }
+
+        document.querySelectorAll('.btn-add').forEach(btn => { btn.addEventListener('click', function() { tampilToast(this.getAttribute('data-nama') + ' ditambahkan!'); }); });
+        document.getElementById('btnPromo').addEventListener('click', (e) => { e.preventDefault(); tampilToast('Promo berhasil diklaim! Selamat menikmati.'); });
+    </script>
+</body>
+</html>
