@@ -1,435 +1,378 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lezat Berkah - Kuliner Nusantara & Western</title>
-    <!-- Menggunakan Font Google untuk tampilan modern -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!-- Menggunakan FontAwesome untuk ikon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <style>
-        /* --- CSS VARIABLES & RESET --- */
-        :root {
-            --primary-color: #ff6b35; /* Oranye nafsu makan */
-            --primary-dark: #e85a24;
-            --secondary-color: #2c3e50;
-            --text-color: #444;
-            --bg-color: #fdfdfd;
-            --card-bg: #ffffff;
-            --shadow: 0 10px 30px rgba(0,0,0,0.08);
-            --radius: 12px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KulinerHub — Pilih Restoran Favoritmu</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+:root {
+    --bg: #17110d;
+    --panel: rgba(255,255,255,0.05);
+    --border: rgba(255,255,255,0.12);
+    --text: #f8f2ea;
+    --muted: rgba(248,242,234,0.62);
+}
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    overflow-x: hidden;
+}
 
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
+/* ====== BACKGROUND AMBIEN ====== */
+.blob {
+    position: fixed; border-radius: 50%;
+    filter: blur(100px); opacity: 0.15;
+    pointer-events: none; z-index: 0;
+    animation: drift 16s ease-in-out infinite;
+}
+.blob-1 { width: 440px; height: 440px; background: #ff6b35; top: -140px; left: -120px; }
+.blob-2 { width: 380px; height: 380px; background: #b68973; bottom: -120px; right: -90px; animation-delay: -5s; }
+.blob-3 { width: 320px; height: 320px; background: #d32f2f; top: 42%; left: 58%; animation-delay: -10s; }
+@keyframes drift {
+    0%, 100% { transform: translate(0,0) scale(1); }
+    50%      { transform: translate(40px,-30px) scale(1.1); }
+}
 
-        /* --- HEADER --- */
-        header {
-            background-color: var(--card-bg);
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            padding: 1rem 0;
-        }
+/* ====== NAVBAR ====== */
+.navbar {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 5%;
+    background: rgba(23,17,13,0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+}
+.brand {
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; letter-spacing: 1px;
+}
+.brand-icon {
+    width: 38px; height: 38px; border-radius: 12px;
+    background: linear-gradient(135deg, #ff6b35, #e85a24);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 18px rgba(255,107,53,0.35);
+}
+.nav-cta {
+    background: linear-gradient(135deg, #ff6b35, #e85a24);
+    color: #fff; font-weight: 600; font-size: 0.85rem;
+    padding: 10px 22px; border-radius: 50px; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    box-shadow: 0 6px 18px rgba(255,107,53,0.3);
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(255,107,53,0.45); }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+/* ====== HERO ====== */
+.hero {
+    position: relative; z-index: 1;
+    text-align: center; padding: 100px 24px 70px;
+    max-width: 920px; margin: 0 auto;
+}
+.hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 18px; border-radius: 50px;
+    border: 1px solid var(--border); background: var(--panel);
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 24px;
+}
+.hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.3rem, 6vw, 3.9rem);
+    font-weight: 800; line-height: 1.12; margin-bottom: 18px;
+}
+.hero h1 .grad {
+    background: linear-gradient(90deg, #ff6b35, #f9a825);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero > p { color: var(--muted); max-width: 560px; margin: 0 auto 38px; }
 
-        .nav-wrapper {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+/* Tombol cepat langsung ke tiap situs */
+.hero-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.chip-btn {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 12px 26px; border-radius: 50px;
+    background: var(--panel); border: 1px solid var(--border);
+    color: var(--text); font-weight: 600; font-size: 0.88rem;
+    text-decoration: none; transition: all 0.25s ease;
+}
+.chip-btn span { font-size: 1.1rem; }
+.chip-btn:hover {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.28);
+    transform: translateY(-3px);
+}
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--secondary-color);
-        }
-        .logo span { color: var(--primary-color); }
+.hero-stats { display: flex; justify-content: center; flex-wrap: wrap; gap: 48px; margin-top: 56px; }
+.stat-num {
+    font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 800;
+    background: linear-gradient(90deg, #ff6b35, #f9a825);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.stat-label { font-size: 0.78rem; color: var(--muted); font-weight: 500; }
 
-        nav ul {
-            display: flex;
-            gap: 2rem;
-        }
+/* ====== SECTION KARTU ====== */
+.section { position: relative; z-index: 1; padding: 30px 5% 90px; }
+.section-head { text-align: center; margin-bottom: 48px; }
+.section-head .tag {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: #f9a825; margin-bottom: 12px;
+}
+.section-head h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.7rem, 4vw, 2.5rem); margin-bottom: 10px; }
+.section-head p { color: var(--muted); font-size: 0.95rem; }
 
-        nav a {
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        nav a:hover { color: var(--primary-color); }
+.site-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 28px; max-width: 1080px; margin: 0 auto; align-items: stretch;
+}
 
-        .cta-btn {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: background 0.3s;
-        }
-        .cta-btn:hover { background-color: var(--primary-dark); }
+/* Kartu — warna per situs via CSS custom properties */
+.site-card {
+    --c1: #ff6b35; --c2: #e85a24;
+    display: flex; flex-direction: column;
+    background: #fffdf9; color: #2c2018;
+    border-radius: 26px; overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.site-card:hover { transform: translateY(-10px); box-shadow: 0 34px 80px rgba(0,0,0,0.55); }
 
-        /* --- HERO SECTION --- */
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://picsum.photos/seed/foodhero/1600/900');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 6rem 0;
-            text-align: center;
-            border-radius: 0 0 30px 30px;
-            margin-bottom: 3rem;
-        }
+.site-card.lezat  { --c1: #ff8c5a; --c2: #e85a24; }   /* tema oranye  */
+.site-card.lidah  { --c1: #c99b7f; --c2: #8a5a3c; }   /* tema coklat  */
+.site-card.dimsum { --c1: #e53935; --c2: #b71c1c; }   /* tema merah   */
 
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
+.card-banner {
+    position: relative; height: 170px;
+    background: linear-gradient(135deg, var(--c1), var(--c2));
+    display: flex; align-items: center; justify-content: center;
+}
+.card-banner::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 70% 20%, rgba(255,255,255,0.28), transparent 55%);
+}
+.card-banner .emoji {
+    font-size: 4.6rem; position: relative; z-index: 1;
+    filter: drop-shadow(0 12px 20px rgba(0,0,0,0.3));
+    animation: bob 5s ease-in-out infinite;
+}
+.card-flag {
+    position: absolute; top: 16px; right: 16px; z-index: 2;
+    background: rgba(255,255,255,0.94); color: var(--c2);
+    font-size: 0.66rem; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; padding: 6px 14px; border-radius: 50px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+}
+@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
+.card-body { padding: 26px 26px 28px; display: flex; flex-direction: column; flex-grow: 1; }
+.card-body h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 6px; }
+.card-body .tagline { color: var(--c2); font-weight: 600; font-size: 0.84rem; margin-bottom: 12px; }
+.card-body .desc { color: #6b5a4e; font-size: 0.88rem; margin-bottom: 18px; }
 
-        .hero-btn {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            display: inline-block;
-            transition: transform 0.3s;
-        }
-        .hero-btn:hover { transform: translateY(-3px); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.chip {
+    background: rgba(0,0,0,0.045); color: #55432f;
+    font-size: 0.72rem; font-weight: 600;
+    padding: 6px 13px; border-radius: 50px;
+}
+.card-meta { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; font-size: 0.78rem; color: #8a7866; font-weight: 500; }
+.card-meta i { color: #f5a623; margin-right: 4px; }
 
-        /* --- MENU SECTION --- */
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        .section-title h2 {
-            font-size: 2.2rem;
-            color: var(--secondary-color);
-            margin-bottom: 0.5rem;
-        }
-        .section-title p {
-            color: #777;
-        }
+.visit-btn {
+    margin-top: auto;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 14px 20px; border-radius: 16px;
+    background: linear-gradient(135deg, var(--c1), var(--c2));
+    color: #fff; font-family: 'Poppins', sans-serif;
+    font-weight: 700; font-size: 0.95rem; text-decoration: none;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+.visit-btn:hover { transform: translateY(-3px); box-shadow: 0 16px 34px rgba(0,0,0,0.32); }
+.visit-btn i { transition: transform 0.25s; }
+.visit-btn:hover i { transform: translateX(4px); }
 
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            padding-bottom: 4rem;
-        }
+/* ====== FOOTER ====== */
+.footer { position: relative; z-index: 1; text-align: center; padding: 50px 24px 40px; border-top: 1px solid var(--border); }
+.footer-brand { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 8px; }
+.footer p { color: var(--muted); font-size: 0.85rem; }
+.footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin: 22px 0; }
+.footer-links a {
+    padding: 9px 20px; border-radius: 50px;
+    border: 1px solid var(--border); background: var(--panel);
+    color: var(--text); font-size: 0.8rem; font-weight: 600;
+    text-decoration: none; transition: all 0.25s;
+}
+.footer-links a:hover { background: rgba(255,255,255,0.12); transform: translateY(-2px); }
+.copy { font-size: 0.75rem !important; opacity: 0.6; }
 
-        .menu-card {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: flex;
-            flex-direction: column;
-        }
+/* ====== ANIMASI SCROLL ====== */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.show { opacity: 1; transform: none; }
 
-        .menu-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
-        }
-
-        .card-img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-        }
-
-        .card-body {
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--secondary-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .card-desc {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 1rem;
-            flex-grow: 1;
-        }
-
-        .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: auto;
-        }
-
-        .price {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-
-        .order-btn {
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-            background: transparent;
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .order-btn:hover {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            background-color: var(--secondary-color);
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-            margin-top: 2rem;
-        }
-
-        .social-links {
-            margin-bottom: 1rem;
-        }
-        .social-links a {
-            color: white;
-            font-size: 1.5rem;
-            margin: 0 10px;
-            transition: opacity 0.3s;
-        }
-        .social-links a:hover { opacity: 0.7; }
-
-        /* --- RESPONSIVE --- */
-        @media (max-width: 768px) {
-            .nav-wrapper {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            .hero h1 { font-size: 2rem; }
-        }
-    </style>
+@media (max-width: 640px) {
+    .brand { font-size: 1.1rem; }
+    .hero-stats { gap: 30px; }
+}
+</style>
 </head>
 <body>
 
-    <!-- Header / Navigasi -->
-    <header>
-        <div class="container nav-wrapper">
-            <div class="logo">Lezat<span>Berkah</span></div>
-            <nav>
-                <ul>
-                    <li><a href="#">Beranda</a></li>
-                    <li><a href="#menu">Menu</a></li>
-                    <li><a href="#kontak">Kontak</a></li>
-                </ul>
-            </nav>
-            <a href="#" class="cta-btn"><i class="fas fa-shopping-basket"></i> Pesan</a>
-        </div>
-    </header>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h1>Rasakan Cita Rasa Nusantara Terbaik</h1>
-            <p>Dari sate tradisional hingga bakso pedas, semua ada di sini.</p>
-            <a href="#menu" class="hero-btn">Lihat Menu</a>
-        </div>
-    </section>
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="brand">
+        <span class="brand-icon"><i class="fas fa-utensils"></i></span>
+        KulinerHub
+    </div>
+    <a href="#restoran" class="nav-cta"><i class="fas fa-arrow-down"></i> Pilih Restoran</a>
+</nav>
 
-    <!-- Menu Section -->
-    <main id="menu" class="container">
-        <div class="section-title">
-            <h2>Menu Favorit Kami</h2>
-            <p>Pilih hidangan lezat yang kami siapkan dengan bahan segar.</p>
-        </div>
+<!-- HERO -->
+<header class="hero">
+    <div class="hero-badge"><i class="fas fa-star"></i> Portal Kuliner</div>
+    <h1>Lapar? Pilih<br><span class="grad">Restoran Favoritmu</span></h1>
+    <p>Tiga dapur legendaris dalam satu pintu. Klik tombol di bawah untuk langsung mengunjungi situs masing-masing restoran.</p>
 
-        <div class="menu-grid">
-            
-            <!-- 1. Dimsum -->
-            <article class="menu-card">
-                <!-- Gambar Dimsum -->
-                <img src="https://z-cdn-media.chatglm.cn/files/43db88ca-e6e0-4a7e-8bc4-8db5d4cb97ed.jpg?auth_key=1888936504-1411763d723945609b86f822ca16c865-0-c1f1d7dfd84b539a8517d0dea735a1d3" alt="Dimsum" class="card-img">
-                <div class="card-body">
-                    <h3 class="card-title">Dimsum Spesial</h3>
-                    <p class="card-desc">Dimsum lembut dengan isian udang dan daging yang gurih, disajikan dengan saus cocolan pedas manis.</p>
-                    <div class="card-footer">
-                        <span class="price">Rp 20.000</span>
-                        <button class="order-btn" onclick="pesan('Dimsum')">Pesan <i class="fas fa-plus"></i></button>
-                    </div>
-                </div>
-            </article>
+    <!-- ====== TOMBOL LANGSUNG KE SITUS LAIN (ganti href sesuai nama file kamu) ====== -->
+    <div class="hero-buttons">
+        <a href="kedaijualanhawanuhaindex.html" class="chip-btn" target="_blank" rel="noopener"><span>🥘</span> Lezat Berkah</a>
+        <a href="Situs.html" class="chip-btn" target="_blank" rel="noopener"><span>🍜</span> Lidah Kita</a>
+        <a href="dimsum.html" class="chip-btn" target="_blank" rel="noopener"><span>🥟</span> DIMSUM.ZONE</a>
+    </div>
 
-            <!-- 2. Sate Ayam -->
-            <article class="menu-card">
-                <!-- Gambar Sate -->
-                <img src="https://z-cdn-media.chatglm.cn/files/54828d70-4699-4004-9ab9-f396a8925e50.jpg?auth_key=1888936504-e77b8fa3b954485e900784e8b9a39287-0-b158a62f0fedd631fd406a4812a42214" alt="Sate Ayam" class="card-img">
-                <div class="card-body">
-                    <h3 class="card-title">Sate Ayam</h3>
-                    <p class="card-desc">Sate ayam empuk yang dipanggang sempurna dengan bumbu kacang kental yang kaya rasa.</p>
-                    <div class="card-footer">
-                        <span class="price">Rp 25.000</span>
-                        <button class="order-btn" onclick="pesan('Sate Ayam')">Pesan <i class="fas fa-plus"></i></button>
-                    </div>
-                </div>
-            </article>
+    <div class="hero-stats">
+        <div><div class="stat-num">3</div><div class="stat-label">Restoran</div></div>
+        <div><div class="stat-num">50+</div><div class="stat-label">Total Menu</div></div>
+        <div><div class="stat-num">4.9</div><div class="stat-label">Rating Rata-rata</div></div>
+    </div>
+</header>
 
-            <!-- 3. Soto Betawi -->
-            <article class="menu-card">
-                <!-- Gambar Soto -->
-                <img src="https://z-cdn-media.chatglm.cn/files/56ed0363-5b9f-4a67-8482-eb405da58fb8.jpg?auth_key=1888936504-3da9dd3bd3a041efba4c09b34e3b876d-0-0ee01f85b0d6784647df33b4f4d4dbac" alt="Soto Betawi" class="card-img">
-                <div class="card-body">
-                    <h3 class="card-title">Soto Betawi</h3>
-                    <p class="card-desc">Soto dengan kuah santan yang creamy, potongan daging sapi pilihan, dan irisan tomat segar.</p>
-                    <div class="card-footer">
-                        <span class="price">Rp 35.000</span>
-                        <button class="order-btn" onclick="pesan('Soto Betawi')">Pesan <i class="fas fa-plus"></i></button>
-                    </div>
-                </div>
-            </article>
+<!-- KARTU RESTORAN -->
+<section class="section" id="restoran">
+    <div class="section-head reveal">
+        <div class="tag">— Pilih Destinasi —</div>
+        <h2>Restoran Kami</h2>
+        <p>Tekan tombol "Kunjungi Situs" untuk membuka halaman lengkap tiap restoran</p>
+    </div>
 
-            <!-- 4. Nasi Goreng Seafood -->
-            <article class="menu-card">
-                <!-- Gambar Nasi Goreng -->
-                <img src="https://z-cdn-media.chatglm.cn/files/cca9c54f-72c9-4410-8323-8443b4b5f5dc.jpg?auth_key=1888936504-06053cf3659848d58099b4fccb9c5cc3-0-4831f9be314980675f63816aa6d0cfc0" alt="Nasi Goreng Seafood" class="card-img">
-                <div class="card-body">
-                    <h3 class="card-title">Nasi Goreng Seafood</h3>
-                    <p class="card-desc">Nasi goreng bumbu spesial dengan topping udang besar, cumi, ayam, dan telur mata sapi.</p>
-                    <div class="card-footer">
-                        <span class="price">Rp 32.000</span>
-                        <button class="order-btn" onclick="pesan('Nasi Goreng Seafood')">Pesan <i class="fas fa-plus"></i></button>
-                    </div>
-                </div>
-            </article>
-
-            <!-- 5. Martabak Telur -->
-            <article class="menu-card">
-                <!-- Gambar Martabak -->
-                <img src="https://z-cdn-media.chatglm.cn/files/9d5ae207-d96c-4f0d-a7b7-f9da1dbb77c5.jpg?auth_key=1888936504-c7cdf63bd0dc4ec19008ce4a9a044f03-0-acd52b63f03ee77899243a297c4afead" alt="Martabak Telur" class="card-img">
-                <div class="card-body">
-                    <h3 class="card-title">Martabak Telur</h3>
-                    <p class="card-desc">Kulit martabak super renyah dengan isian telur bebek, daging cincang, dan daun bawang melimpah.</p>
-                    <div class="card-footer">
-                        <span class="price">Rp 22.000</span>
-                        <button class="order-btn" onclick="pesan('Martabak Telur')">Pesan <i class="fas fa-plus"></i></button>
-                    </div>
-                </div>
-            </article>
-
-            <!-- 6. Bakso Mercon -->
-            <article class="menu-card">
-                <!-- Gambar Bakso Mercon -->
-                <img src="https://z-cdn-media.chatglm.cn/files/9197dc54-afed-479d-ad7d-fdac3d032cbc.jpg?auth_key=1888936504-e13e588342bb4bd7a6ab616c53093114-0-10231c42d40e34ecaf7518f93c567436" alt="Bakso Mercon" class="card-img">
-                <div class="card-body">
-                    <h3 class="card-title">Bakso Mercon</h3>
-                    <p class="card-desc">Bakso urat pedas dengan isian cabai rawit yang meledak di mulut, cocok untuk pecinta pedas.</p>
-                    <div class="card-footer">
-                        <span class="price">Rp 20.000</span>
-                        <button class="order-btn" onclick="pesan('Bakso Mercon')">Pesan <i class="fas fa-plus"></i></button>
-                    </div>
-                </div>
-            </article>
-
-            <!-- 7. Bakso Biasa -->
-            <article class="menu-card">
-                <!-- Gambar Bakso Biasa -->
-                <img src="https://z-cdn-media.chatglm.cn/files/6705cf2a-2faf-43e4-844a-1b2c763ee485.jpg?auth_key=1888936504-980e1890e9644189b9f4a3f4bace7e02-0-a60cb5b28a31986b837d1a2fcd27e6d8" alt="Bakso Biasa" class="card-img">
-                <div class="card-body">
-                    <h3 class="card-title">Bakso Biasa</h3>
-                    <p class="card-desc">Bakso sapi halus dan kasar dengan kuah kaldu sapi yang bening, segar, dan gurih tanpa pengawet.</p>
-                    <div class="card-footer">
-                        <span class="price">Rp 18.000</span>
-                        <button class="order-btn" onclick="pesan('Bakso Biasa')">Pesan <i class="fas fa-plus"></i></button>
-                    </div>
-                </div>
-            </article>
-
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer id="kontak">
-        <div class="container">
-            <div class="logo" style="margin-bottom: 1rem; color: white;">Lezat<span>Berkah</span></div>
-            <p>Jl. Raya Kuliner No. 123, Jakarta Selatan</p>
-            <div class="social-links">
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                <a href="#"><i class="fab fa-facebook"></i></a>
+    <div class="site-grid">
+        <!-- 1. LEZAT BERKAH -->
+        <article class="site-card lezat reveal">
+            <div class="card-banner">
+                <span class="card-flag">Nusantara & Western</span>
+                <div class="emoji">🥘</div>
             </div>
-            <p>&copy; 2023 Lezat Berkah. All rights reserved.</p>
-        </div>
-    </footer>
+            <div class="card-body">
+                <h3>Lezat Berkah</h3>
+                <div class="tagline">Kuliner Nusantara & Western</div>
+                <p class="desc">Menu legendaris: Sate Ayam, Soto Betawi, Bakso Mercon, hingga Nasi Goreng Seafood — semua dengan bahan segar pilihan.</p>
+                <div class="chips">
+                    <span class="chip">Sate Ayam</span>
+                    <span class="chip">Soto Betawi</span>
+                    <span class="chip">Martabak</span>
+                    <span class="chip">Bakso</span>
+                </div>
+                <div class="card-meta">
+                    <span><i class="fas fa-tag"></i>Mulai Rp 18rb</span>
+                    <span><i class="fas fa-star"></i>4.8</span>
+                </div>
+                <!-- GANTI href sesuai nama file -->
+                <a href="kedaijualanhawanuhaindex.html" class="visit-btn" target="_blank" rel="noopener">
+                    Kunjungi Situs <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </article>
 
-    <!-- Simple Script for Interaction (No Alerts) -->
-    <script>
-        // Fungsi sederhana untuk simulasi pemesanan
-        function pesan(namaMenu) {
-            // Membuat notifikasi toast sederhana
-            const toast = document.createElement('div');
-            toast.style.position = 'fixed';
-            toast.style.bottom = '20px';
-            toast.style.right = '20px';
-            toast.style.backgroundColor = '#2c3e50';
-            toast.style.color = 'white';
-            toast.style.padding = '1rem 2rem';
-            toast.style.borderRadius = '8px';
-            toast.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
-            toast.style.zIndex = '2000';
-            toast.style.animation = 'fadeIn 0.5s, fadeOut 0.5s 2.5s forwards';
-            toast.innerText = `${namaMenu} berhasil ditambahkan ke keranjang!`;
-            
-            document.body.appendChild(toast);
+        <!-- 2. LIDAH KITA -->
+        <article class="site-card lidah reveal">
+            <div class="card-banner">
+                <span class="card-flag">3 Masakan Dunia</span>
+                <div class="emoji">🍜</div>
+            </div>
+            <div class="card-body">
+                <h3>Lidah Kita</h3>
+                <div class="tagline">Cita Rasa yang Menghangatkan</div>
+                <p class="desc">Chinese, Indonesia, dan Jepang dalam satu tempat yang hangat. Ramen kaldu 12 jam, sushi segar, dan matcha premium.</p>
+                <div class="chips">
+                    <span class="chip">Ramen</span>
+                    <span class="chip">Sushi</span>
+                    <span class="chip">Matcha Latte</span>
+                    <span class="chip">Nasi Goreng</span>
+                </div>
+                <div class="card-meta">
+                    <span><i class="fas fa-tag"></i>Mulai Rp 15rb</span>
+                    <span><i class="fas fa-star"></i>4.9</span>
+                </div>
+                <a href="Situs.html" class="visit-btn" target="_blank" rel="noopener">
+                    Kunjungi Situs <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </article>
 
-            // Menghapus elemen setelah animasi selesai
-            setTimeout(() => {
-                toast.remove();
-            }, 3000);
+        <!-- 3. DIMSUM.ZONE -->
+        <article class="site-card dimsum reveal">
+            <div class="card-banner">
+                <span class="card-flag">100% Halal</span>
+                <div class="emoji">🥟</div>
+            </div>
+            <div class="card-body">
+                <h3>DIMSUM.ZONE</h3>
+                <div class="tagline">Dimsum Legit Ala Gen Z</div>
+                <p class="desc">Kulit tipis, isian melimpah, uap masih mengepul! Hakau, siomay, lumpia, dan bola udang dibuat fresh setiap hari.</p>
+                <div class="chips">
+                    <span class="chip">Hakau</span>
+                    <span class="chip">Siomay</span>
+                    <span class="chip">Lumpia</span>
+                    <span class="chip">Bola Udang</span>
+                </div>
+                <div class="card-meta">
+                    <span><i class="fas fa-tag"></i>Mulai Rp 15rb</span>
+                    <span><i class="fas fa-star"></i>4.9</span>
+                </div>
+                <a href="dimsum.html" class="visit-btn" target="_blank" rel="noopener">
+                    Kunjungi Situs <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </article>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-brand">🍽️ KulinerHub</div>
+    <p>Satu pintu menuju semua restoran favoritmu.</p>
+    <div class="footer-links">
+        <a href="kedaijualanhawanuhaindex.html" target="_blank" rel="noopener">Lezat Berkah</a>
+        <a href="Situs.html" target="_blank" rel="noopener">Lidah Kita</a>
+        <a href="dimsum.html" target="_blank" rel="noopener">DIMSUM.ZONE</a>
+    </div>
+    <p class="copy">© 2025 KulinerHub. Dibuat dengan ❤️</p>
+</footer>
+
+<script>
+// Animasi muncul saat scroll
+const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            e.target.classList.add('show');
+            io.unobserve(e.target);
         }
-
-        // Menambahkan CSS keyframes untuk animasi toast secara dinamis
-        const styleSheet = document.createElement("style");
-        styleSheet.innerText = `
-            @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-            @keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(20px); } }
-        `;
-        document.head.appendChild(styleSheet);
-    </script>
+    });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
 </body>
 </html>
